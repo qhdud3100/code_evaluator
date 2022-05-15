@@ -140,6 +140,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # SOCIALACCOUNT_AUTO_SIGN_UP = True
 LOGIN_URL = '/accounts/google/login/'
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
 LOGIN_REDIRECT_URL = ''
 AUTH_USER_MODEL = 'accounts.User'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
