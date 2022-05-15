@@ -1,4 +1,5 @@
 {% extends 'evaluator/base.html' %}
+{% load bootstrap5 %}
 {% block content %}
   <body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl   footer-offset">
 
@@ -37,29 +38,36 @@
 
             <!-- Body -->
             <div class="card-body">
+              <form method="post" novalidate>
+                {% csrf_token %}
+                {% for field in form %}
+                  {% bootstrap_field field %}
+                {% endfor %}
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+              </form>
               <!-- Form Group -->
-              <div class="form-group">
-                <label for="projectNameProjectSettingsLabel" class="input-label">File Upload<i
-                  class="tio-help-outlined text-body ml-1" data-toggle="tooltip" data-placement="top"
-                  title="Displayed on public forums, such as Front."></i></label>
+{#              <div class="form-group">#}
+{#                <label for="projectNameProjectSettingsLabel" class="input-label">File Upload<i#}
+{#                  class="tio-help-outlined text-body ml-1" data-toggle="tooltip" data-placement="top"#}
+{#                  title="Displayed on public forums, such as Front."></i></label>#}
+{##}
+{#                <div class="input-group input-group-merge">#}
+{#                  <div class="input-group-prepend">#}
+{#                    <div class="input-group-text">#}
+{#                      <i class="tio-file-add-outlined"></i>#}
+{#                    </div>#}
+{#                  </div>#}
+{#                  <input type="text" class="form-control" name="projectName" id="projectNameProjectSettingsLabel"#}
+{#                         placeholder="Upload file here. Allowed extensions are:" aria-label="Enter project name here">#}
+{#                </div>#}
+{#              </div>#}
+{#              <!-- End Form Group -->#}
+{##}
+{#              <!-- Quill -->#}
+{#              <label class="input-label">Comment<span#}
+{#                class="input-label-secondary">(Optional)</span></label>#}
 
-                <div class="input-group input-group-merge">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">
-                      <i class="tio-file-add-outlined"></i>
-                    </div>
-                  </div>
-                  <input type="text" class="form-control" name="projectName" id="projectNameProjectSettingsLabel"
-                         placeholder="Upload file here. Allowed extensions are:" aria-label="Enter project name here">
-                </div>
-              </div>
-              <!-- End Form Group -->
-
-              <!-- Quill -->
-              <label class="input-label">Comment<span
-                class="input-label-secondary">(Optional)</span></label>
-
-              <input>
+{#              <input>#}
               <!-- End Quill -->
             </div>
             <!-- End Body -->

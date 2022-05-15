@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, FormView, DetailView
 
+from evaluator.forms import SubmissionUploadForm
 from evaluator.models import Classroom
 
 
@@ -47,9 +48,9 @@ class StudentList(LoginRequiredMixin, ListView):
         return context
 
 
-class AssignmentUpload(LoginRequiredMixin, FormView):
+class SubmissionUpload(FormView):
     template_name = 'evaluator/assignment_upload.html'
-    form_class = None
+    form_class = SubmissionUploadForm
 
 
 class EvaluationResult(LoginRequiredMixin, DetailView):
