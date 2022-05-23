@@ -5,61 +5,6 @@
 
 {% block content %}
   <body class="d-flex align-items-center min-h-100">
-  <!-- ========== HEADER ========== -->
-  <header class="position-absolute top-0 left-0 right-0 mt-3 mx-3">
-    <div class="d-flex d-lg-none justify-content-between">
-
-      <!-- Select -->
-      <div id="languageSelect2" class="select2-custom select2-custom-right z-index-2">
-        <select class="js-select2-custom custom-select-sm" size="1" style="opacity: 0;"
-                data-hs-select2-options='{
-                    "dropdownParent": "#languageSelect2",
-                    "minimumResultsForSearch": "Infinity",
-                    "placeholder": "Select language",
-                    "customClass": "custom-select custom-select-sm custom-select-borderless bg-transparent",
-                    "dropdownAutoWidth": true,
-                    "dropdownWidth": "12rem"
-                  }'>
-          <option label="empty"></option>
-          <option value="language1" selected
-                  data-option-template='<span class="d-flex align-items-center"><img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/us.svg' %}" alt="Image description" width="16"/><span>English (US)</span></span>'>
-            English (US)
-          </option>
-          <option value="language2"
-                  data-option-template='<span class="d-flex align-items-center"><img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/gb.svg' %}" alt="Image description" width="16"/><span>English (UK)</span></span>'>
-            English (UK)
-          </option>
-          <option value="language3"
-                  data-option-template='<span class="d-flex align-items-center"><img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/de.svg' %}" alt="Image description" width="16"/><span>Deutsch</span></span>'>
-            Deutsch
-          </option>
-          <option value="language4"
-                  data-option-template='<span class="d-flex align-items-center"><img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/dk.svg' %}" alt="Image description" width="16"/><span>Dansk</span></span>'>
-            Dansk
-          </option>
-          <option value="language5"
-                  data-option-template='<span class="d-flex align-items-center"><img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/es.svg' %}" alt="Image description" width="16"/><span>Español</span></span>'>
-            Español
-          </option>
-          <option value="language6"
-                  data-option-template='<span class="d-flex align-items-center"><img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/nl.svg' %}" alt="Image description" width="16"/><span>Nederlands</span></span>'>
-            Nederlands
-          </option>
-          <option value="language7"
-                  data-option-template='<span class="d-flex align-items-center"><img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/it.svg' %}" alt="Image description" width="16"/><span>Italiano</span></span>'>
-            Italiano
-          </option>
-          <option value="language8"
-                  data-option-template='<span class="d-flex align-items-center"><img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/cn.svg' %}" alt="Image description" width="16"/><span>中文 (繁體)</span></span>'>
-            中文 (繁體)
-          </option>
-        </select>
-      </div>
-      <!-- End Select -->
-    </div>
-  </header>
-  <!-- ========== END HEADER ========== -->
-
   <!-- ========== MAIN CONTENT ========== -->
   <main id="content" role="main" class="main pt-0">
     <!-- Content -->
@@ -76,51 +21,7 @@
               {#                </a>#}
 
               <!-- Select -->
-              <div id="languageSelect1" class="select2-custom select2-custom-right">
-                <select class="js-select2-custom"
-                        data-hs-select2-options='{
-                            "dropdownParent": "#languageSelect1",
-                            "minimumResultsForSearch": "Infinity",
-                            "placeholder": "Select language",
-                            "customClass": "custom-select custom-select-sm custom-select-borderless bg-transparent",
-                            "dropdownAutoWidth": true,
-                            "dropdownWidth": "12rem"
-                          }'>
-                  <option label="empty"></option>
-                  <option value="language1" selected
-                          data-option-template='<span class="d-flex align-items-center"><img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/us.svg' %}" alt="Image description" width="16"/><span>English (US)</span></span>'>
-                    English (US)
-                  </option>
-                  <option value="language2"
-                          data-option-template='<span class="d-flex align-items-center"><img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/gb.svg' %}" alt="Image description" width="16"/><span>English (UK)</span></span>'>
-                    English (UK)
-                  </option>
-                  <option value="language3"
-                          data-option-template='<span class="d-flex align-items-center"><img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/de.svg' %}" alt="Image description" width="16"/><span>Deutsch</span></span>'>
-                    Deutsch
-                  </option>
-                  <option value="language4"
-                          data-option-template='<span class="d-flex align-items-center"><img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/dk.svg' %}" alt="Image description" width="16"/><span>Dansk</span></span>'>
-                    Dansk
-                  </option>
-                  <option value="language5"
-                          data-option-template='<span class="d-flex align-items-center"><img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/es.svg' %}" alt="Image description" width="16"/><span>Español</span></span>'>
-                    Español
-                  </option>
-                  <option value="language6"
-                          data-option-template='<span class="d-flex align-items-center"><img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/nl.svg' %}" alt="Image description" width="16"/><span>Nederlands</span></span>'>
-                    Nederlands
-                  </option>
-                  <option value="language7"
-                          data-option-template='<span class="d-flex align-items-center"><img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/it.svg' %}" alt="Image description" width="16"/><span>Italiano</span></span>'>
-                    Italiano
-                  </option>
-                  <option value="language8"
-                          data-option-template='<span class="d-flex align-items-center"><img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/cn.svg' %}" alt="Image description" width="16"/><span>中文 (繁體)</span></span>'>
-                    中文 (繁體)
-                  </option>
-                </select>
-              </div>
+
               <!-- End Select -->
             </div>
           </div>

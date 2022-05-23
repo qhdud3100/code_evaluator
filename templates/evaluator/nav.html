@@ -1,35 +1,5 @@
 {% load static %}
 <script src="{% static 'vendor/hs-navbar-vertical-aside/hs-navbar-vertical-aside-mini-cache.js' %}"></script>
-<!-- Search Form -->
-<div id="searchDropdown" class="hs-unfold-content dropdown-unfold search-fullwidth d-md-none">
-  <form class="input-group input-group-merge input-group-borderless">
-    <div class="input-group-prepend">
-      <div class="input-group-text">
-        <i class="tio-search"></i>
-      </div>
-    </div>
-
-    <input class="form-control rounded-0" type="search" placeholder="Search in front" aria-label="Search in front">
-
-    <div class="input-group-append">
-      <div class="input-group-text">
-        <div class="hs-unfold">
-          <a class="js-hs-unfold-invoker" href="javascript:;"
-             data-hs-unfold-options='{
-                   "target": "#searchDropdown",
-                   "type": "css-animation",
-                   "animationIn": "fadeIn",
-                   "hasOverlay": "rgba(46, 52, 81, 0.1)",
-                   "closeBreakpoint": "md"
-                 }'>
-            <i class="tio-clear tio-lg"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </form>
-</div>
-<!-- End Search Form -->
 
 <!-- ========== HEADER ========== -->
 
@@ -38,10 +8,10 @@
   <div class="navbar-nav-wrap">
     <div class="navbar-brand-wrapper">
       <!-- Logo -->
-{#      <a class="navbar-brand" href="./index.html" aria-label="Front">#}
-{#        <img class="navbar-brand-logo" src="{% static 'svg/logos/logo.svg' %}" alt="Logo">#}
-{#        <img class="navbar-brand-logo-mini" src="{% static 'svg/logos/logo-short.svg' %}" alt="Logo">#}
-{#      </a>#}
+      {#      <a class="navbar-brand" href="./index.html" aria-label="Front">#}
+      {#        <img class="navbar-brand-logo" src="{% static 'svg/logos/logo.svg' %}" alt="Logo">#}
+      {#        <img class="navbar-brand-logo-mini" src="{% static 'svg/logos/logo-short.svg' %}" alt="Logo">#}
+      {#      </a>#}
       <!-- End Logo -->
     </div>
 
@@ -54,132 +24,6 @@
            data-template='<div class="tooltip d-none d-sm-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
            data-toggle="tooltip" data-placement="right" title="Expand"></i>
       </button>
-      <!-- End Navbar Vertical Toggle -->
-
-      <!-- Search Form -->
-      <div class="d-none d-md-block">
-        <form class="position-relative">
-          <!-- Input Group -->
-          <div class="input-group input-group-merge input-group-borderless input-group-hover-light navbar-input-group">
-            <div class="input-group-prepend">
-              <div class="input-group-text">
-                <i class="tio-search"></i>
-              </div>
-            </div>
-            <input type="search" class="js-form-search form-control" placeholder="Search"
-                   aria-label="Search in front"
-                   data-hs-form-search-options='{
-                           "clearIcon": "#clearSearchResultsIcon",
-                           "dropMenuElement": "#searchDropdownMenu",
-                           "dropMenuOffset": 20,
-                           "toggleIconOnFocus": true,
-                           "activeClass": "focus"
-                         }'>
-            <a class="input-group-append" href="javascript:;">
-                    <span class="input-group-text">
-                      <i id="clearSearchResultsIcon" class="tio-clear" style="display: none;"></i>
-                    </span>
-            </a>
-          </div>
-          <!-- End Input Group -->
-
-          <!-- Card Search Content -->
-          <div id="searchDropdownMenu"
-               class="hs-form-search-menu-content card dropdown-menu dropdown-card overflow-hidden">
-            <!-- Body -->
-            <div class="card-body-height py-3">
-              <small class="dropdown-header mb-n2">Recent searches</small>
-
-              <div class="dropdown-item bg-transparent text-wrap my-2">
-                      <span class="h4 mr-1">
-                        <a class="btn btn-xs btn-soft-dark btn-pill" href="./index.html">
-                          Gulp <i class="tio-search ml-1"></i>
-                        </a>
-                      </span>
-                <span class="h4">
-                        <a class="btn btn-xs btn-soft-dark btn-pill" href="./index.html">
-                          Notification panel <i class="tio-search ml-1"></i>
-                        </a>
-                      </span>
-              </div>
-
-              <div class="dropdown-divider my-3"></div>
-
-              <small class="dropdown-header mb-n2">Tutorials</small>
-
-              <a class="dropdown-item my-2" href="./index.html">
-                <div class="media align-items-center">
-                        <span class="icon icon-xs icon-soft-dark icon-circle mr-2">
-                          <i class="tio-tune"></i>
-                        </span>
-
-                  <div class="media-body text-truncate">
-                    <span>How to set up Gulp?</span>
-                  </div>
-                </div>
-              </a>
-
-              <a class="dropdown-item my-2" href="./index.html">
-                <div class="media align-items-center">
-                        <span class="icon icon-xs icon-soft-dark icon-circle mr-2">
-                          <i class="tio-paint-bucket"></i>
-                        </span>
-
-                  <div class="media-body text-truncate">
-                    <span>How to change theme color?</span>
-                  </div>
-                </div>
-              </a>
-
-              <div class="dropdown-divider my-3"></div>
-
-              <small class="dropdown-header mb-n2">Members</small>
-
-              <a class="dropdown-item my-2" href="./index.html">
-                <div class="media align-items-center">
-                  <img class="avatar avatar-xs avatar-circle mr-2" src="{% static 'img/160x160/img10.jpg' %}"
-                       alt="Image Description">
-                  <div class="media-body text-truncate">
-                    <span>Amanda Harvey <i class="tio-verified text-primary" data-toggle="tooltip" data-placement="top"
-                                           title="Top endorsed"></i></span>
-                  </div>
-                </div>
-              </a>
-
-              <a class="dropdown-item my-2" href="./index.html">
-                <div class="media align-items-center">
-                  <img class="avatar avatar-xs avatar-circle mr-2" src="{% static 'img/160x160/img3.jpg' %}"
-                       alt="Image Description">
-                  <div class="media-body text-truncate">
-                    <span>David Harrison</span>
-                  </div>
-                </div>
-              </a>
-
-              <a class="dropdown-item my-2" href="./index.html">
-                <div class="media align-items-center">
-                  <div class="avatar avatar-xs avatar-soft-info avatar-circle mr-2">
-                    <span class="avatar-initials">A</span>
-                  </div>
-                  <div class="media-body text-truncate">
-                    <span>Anne Richard</span>
-                  </div>
-                </div>
-              </a>
-            </div>
-            <!-- End Body -->
-
-            <!-- Footer -->
-            <a class="card-footer text-center" href="./index.html">
-              See all results
-              <i class="tio-chevron-right"></i>
-            </a>
-            <!-- End Footer -->
-          </div>
-          <!-- End Card Search Content -->
-        </form>
-      </div>
-      <!-- End Search Form -->
     </div>
 
     <!-- Secondary Content -->
@@ -204,7 +48,6 @@
         </li>
 
         <li class="nav-item d-none d-sm-inline-block">
-          <!-- Notification -->
           <div class="hs-unfold">
             <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;"
                data-hs-unfold-options='{
@@ -289,7 +132,8 @@
                                 <span class="custom-checkbox-list-stretched-bg"></span>
                               </div>
                               <div class="avatar avatar-sm avatar-circle">
-                                <img class="avatar-img" src="{% static 'img/160x160/img3.jpg' %}" alt="Image Description">
+                                <img class="avatar-img" src="{% static 'img/160x160/img3.jpg' %}"
+                                     alt="Image Description">
                               </div>
                             </div>
                           </div>
@@ -343,7 +187,8 @@
                                 <span class="custom-checkbox-list-stretched-bg"></span>
                               </div>
                               <div class="avatar avatar-sm avatar-circle">
-                                <img class="avatar-img" src="{% static 'img/160x160/img10.jpg' %}" alt="Image Description">
+                                <img class="avatar-img" src="{% static 'img/160x160/img10.jpg' %}"
+                                     alt="Image Description">
                               </div>
                             </div>
                           </div>
@@ -368,7 +213,8 @@
                                 <span class="custom-checkbox-list-stretched-bg"></span>
                               </div>
                               <div class="avatar avatar-sm avatar-circle">
-                                <img class="avatar-img" src="{% static 'svg/brands/google.svg' %}" alt="Image Description">
+                                <img class="avatar-img" src="{% static 'svg/brands/google.svg' %}"
+                                     alt="Image Description">
                               </div>
                             </div>
                           </div>
@@ -394,7 +240,8 @@
                                 <span class="custom-checkbox-list-stretched-bg"></span>
                               </div>
                               <div class="avatar avatar-sm avatar-circle">
-                                <img class="avatar-img" src="{% static 'img/160x160/img7.jpg' %}" alt="Image Description">
+                                <img class="avatar-img" src="{% static 'img/160x160/img7.jpg' %}"
+                                     alt="Image Description">
                               </div>
                             </div>
                           </div>
@@ -450,7 +297,8 @@
                                 <span class="custom-checkbox-list-stretched-bg"></span>
                               </div>
                               <div class="avatar avatar-sm avatar-circle">
-                                <img class="avatar-img" src="{% static 'img/160x160/img5.jpg' %}" alt="Image Description">
+                                <img class="avatar-img" src="{% static 'img/160x160/img5.jpg' %}"
+                                     alt="Image Description">
                               </div>
                             </div>
                           </div>
@@ -501,7 +349,8 @@
                                 <span class="custom-checkbox-list-stretched-bg"></span>
                               </div>
                               <div class="avatar avatar-sm avatar-circle">
-                                <img class="avatar-img" src="{% static 'img/160x160/img8.jpg' %}" alt="Image Description">
+                                <img class="avatar-img" src="{% static 'img/160x160/img8.jpg' %}"
+                                     alt="Image Description">
                               </div>
                             </div>
                           </div>
@@ -555,142 +404,6 @@
               <!-- End Card Footer -->
             </div>
           </div>
-          <!-- End Notification -->
-        </li>
-
-        <li class="nav-item d-none d-sm-inline-block">
-          <!-- Apps -->
-          <div class="hs-unfold">
-            <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;"
-               data-hs-unfold-options='{
-                       "target": "#appsDropdown",
-                       "type": "css-animation"
-                     }'>
-              <i class="tio-menu-vs-outlined"></i>
-            </a>
-
-            <div id="appsDropdown"
-                 class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right navbar-dropdown-menu"
-                 style="width: 25rem;">
-              <!-- Header -->
-              <div class="card-header">
-                <span class="card-title h4">Web apps &amp; services</span>
-              </div>
-              <!-- End Header -->
-
-              <!-- Body -->
-              <div class="card-body card-body-height">
-                <!-- Nav -->
-                <div class="nav nav-pills flex-column">
-                  <a class="nav-link" href="#">
-                    <div class="media align-items-center">
-                            <span class="mr-3">
-                              <img class="avatar avatar-xs avatar-4by3" src="{% static 'svg/brands/atlassian.svg' %}"
-                                   alt="Image Description">
-                            </span>
-                      <div class="media-body text-truncate">
-                        <span class="h5 mb-0">Atlassian</span>
-                        <span class="d-block font-size-sm text-body">Security and control across Cloud</span>
-                      </div>
-                    </div>
-                  </a>
-
-                  <a class="nav-link" href="#">
-                    <div class="media align-items-center">
-                            <span class="mr-3">
-                              <img class="avatar avatar-xs avatar-4by3" src="{% static 'svg/brands/slack.svg' %}"
-                                   alt="Image Description">
-                            </span>
-                      <div class="media-body text-truncate">
-                        <span class="h5 mb-0">Slack <span
-                          class="badge badge-primary badge-pill text-uppercase ml-1">Try</span></span>
-                        <span class="d-block font-size-sm text-body">Email collaboration software</span>
-                      </div>
-                    </div>
-                  </a>
-
-                  <a class="nav-link" href="#">
-                    <div class="media align-items-center">
-                            <span class="mr-3">
-                              <img class="avatar avatar-xs avatar-4by3" src="{% static 'svg/brands/google-webdev.svg' %}"
-                                   alt="Image Description">
-                            </span>
-                      <div class="media-body text-truncate">
-                        <span class="h5 mb-0">Google webdev</span>
-                        <span class="d-block font-size-sm text-body">Work involved in developing a website</span>
-                      </div>
-                    </div>
-                  </a>
-
-                  <a class="nav-link" href="#">
-                    <div class="media align-items-center">
-                            <span class="mr-3">
-                              <img class="avatar avatar-xs avatar-4by3" src="{% static 'svg/brands/frontapp.svg' %}"
-                                   alt="Image Description">
-                            </span>
-                      <div class="media-body text-truncate">
-                        <span class="h5 mb-0">Frontapp</span>
-                        <span class="d-block font-size-sm text-body">The inbox for teams</span>
-                      </div>
-                    </div>
-                  </a>
-
-                  <a class="nav-link" href="#">
-                    <div class="media align-items-center">
-                            <span class="mr-3">
-                              <img class="avatar avatar-xs avatar-4by3"
-                                   src="{% static 'svg/illustrations/review-rating-shield.svg' %}" alt="Image Description">
-                            </span>
-                      <div class="media-body text-truncate">
-                        <span class="h5 mb-0">HS Support</span>
-                        <span class="d-block font-size-sm text-body">Customer service and support</span>
-                      </div>
-                    </div>
-                  </a>
-
-                  <a class="nav-link" href="#">
-                    <div class="media align-items-center">
-                            <span class="avatar avatar-xs avatar-soft-dark mr-3">
-                              <span class="avatar-initials"><i class="tio-apps"></i></span>
-                            </span>
-                      <div class="media-body text-truncate">
-                        <span class="h5 mb-0">More Front products</span>
-                        <span class="d-block font-size-sm text-body">Check out more HS products</span>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-                <!-- End Nav -->
-              </div>
-              <!-- End Body -->
-
-              <!-- Footer -->
-              <a class="card-footer text-center" href="#">
-                View all apps
-                <i class="tio-chevron-right"></i>
-              </a>
-              <!-- End Footer -->
-            </div>
-          </div>
-          <!-- End Apps -->
-        </li>
-
-        <li class="nav-item d-none d-sm-inline-block">
-          <!-- Activity -->
-          <div class="hs-unfold">
-            <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;"
-               data-hs-unfold-options='{
-                      "target": "#activitySidebar",
-                      "type": "css-animation",
-                      "animationIn": "fadeInRight",
-                      "animationOut": "fadeOutRight",
-                      "hasOverlay": true,
-                      "smartPositionOff": true
-                     }'>
-              <i class="tio-voice-line"></i>
-            </a>
-          </div>
-          <!-- Activity -->
         </li>
 
         <li class="nav-item">
@@ -831,10 +544,10 @@
         <!-- Logo -->
 
 
-{#        <a class="navbar-brand" href="./index.html" aria-label="Front">#}
-{#          <img class="navbar-brand-logo" src="{% static 'svg/logos/logo.svg' %}" alt="Logo">#}
-{#          <img class="navbar-brand-logo-mini" src="{% static 'svg/logos/logo-short.svg' %}" alt="Logo">#}
-{#        </a>#}
+        {#        <a class="navbar-brand" href="./index.html" aria-label="Front">#}
+        {#          <img class="navbar-brand-logo" src="{% static 'svg/logos/logo.svg' %}" alt="Logo">#}
+        {#          <img class="navbar-brand-logo-mini" src="{% static 'svg/logos/logo-short.svg' %}" alt="Logo">#}
+        {#        </a>#}
 
         <!-- End Logo -->
 
@@ -1485,42 +1198,48 @@
             <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
               <li class="nav-item">
                 <a class="nav-link" href="#" title="English (US)">
-                  <img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/us.svg' %}"
+                  <img class="avatar avatar-xss avatar-circle mr-2"
+                       src="{% static 'vendor/flag-icon-css/flags/1x1/us.svg' %}"
                        alt="Flag">
                   English (US)
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#" title="English (UK)">
-                  <img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/gb.svg' %}"
+                  <img class="avatar avatar-xss avatar-circle mr-2"
+                       src="{% static 'vendor/flag-icon-css/flags/1x1/gb.svg' %}"
                        alt="Flag">
                   English (UK)
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#" title="Deutsch">
-                  <img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/de.svg' %}"
+                  <img class="avatar avatar-xss avatar-circle mr-2"
+                       src="{% static 'vendor/flag-icon-css/flags/1x1/de.svg' %}"
                        alt="Flag">
                   Deutsch
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#" title="Dansk">
-                  <img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/dk.svg' %}"
+                  <img class="avatar avatar-xss avatar-circle mr-2"
+                       src="{% static 'vendor/flag-icon-css/flags/1x1/dk.svg' %}"
                        alt="Flag">
                   Dansk
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#" title="Italiano">
-                  <img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/it.svg' %}"
+                  <img class="avatar avatar-xss avatar-circle mr-2"
+                       src="{% static 'vendor/flag-icon-css/flags/1x1/it.svg' %}"
                        alt="Flag">
                   Italiano
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#" title="中文 (繁體)">
-                  <img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/cn.svg' %}"
+                  <img class="avatar avatar-xss avatar-circle mr-2"
+                       src="{% static 'vendor/flag-icon-css/flags/1x1/cn.svg' %}"
                        alt="Flag">
                   中文 (繁體)
                 </a>
@@ -1614,32 +1333,38 @@
                    class="hs-unfold-content dropdown-unfold dropdown-menu navbar-vertical-footer-dropdown">
                 <span class="dropdown-header">Select language</span>
                 <a class="dropdown-item" href="#">
-                  <img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/us.svg' %}"
+                  <img class="avatar avatar-xss avatar-circle mr-2"
+                       src="{% static 'vendor/flag-icon-css/flags/1x1/us.svg' %}"
                        alt="Flag">
                   <span class="text-truncate pr-2" title="English">English (US)</span>
                 </a>
                 <a class="dropdown-item" href="#">
-                  <img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/gb.svg' %}"
+                  <img class="avatar avatar-xss avatar-circle mr-2"
+                       src="{% static 'vendor/flag-icon-css/flags/1x1/gb.svg' %}"
                        alt="Flag">
                   <span class="text-truncate pr-2" title="English">English (UK)</span>
                 </a>
                 <a class="dropdown-item" href="#">
-                  <img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/de.svg' %}"
+                  <img class="avatar avatar-xss avatar-circle mr-2"
+                       src="{% static 'vendor/flag-icon-css/flags/1x1/de.svg' %}"
                        alt="Flag">
                   <span class="text-truncate pr-2" title="Deutsch">Deutsch</span>
                 </a>
                 <a class="dropdown-item" href="#">
-                  <img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/dk.svg' %}"
+                  <img class="avatar avatar-xss avatar-circle mr-2"
+                       src="{% static 'vendor/flag-icon-css/flags/1x1/dk.svg' %}"
                        alt="Flag">
                   <span class="text-truncate pr-2" title="Dansk">Dansk</span>
                 </a>
                 <a class="dropdown-item" href="#">
-                  <img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/it.svg' %}"
+                  <img class="avatar avatar-xss avatar-circle mr-2"
+                       src="{% static 'vendor/flag-icon-css/flags/1x1/it.svg' %}"
                        alt="Flag">
                   <span class="text-truncate pr-2" title="Italiano">Italiano</span>
                 </a>
                 <a class="dropdown-item" href="#">
-                  <img class="avatar avatar-xss avatar-circle mr-2" src="{% static 'vendor/flag-icon-css/flags/1x1/cn.svg' %}"
+                  <img class="avatar avatar-xss avatar-circle mr-2"
+                       src="{% static 'vendor/flag-icon-css/flags/1x1/cn.svg' %}"
                        alt="Flag">
                   <span class="text-truncate pr-2" title="中文 (繁體)">中文 (繁體)</span>
                 </a>
