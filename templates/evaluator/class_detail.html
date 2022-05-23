@@ -3,8 +3,6 @@
 
 {% block content %}
 
-  {% include 'evaluator/nav.html' %}
-
   <main id="content" role="main" class="main">
     <div class="content container-fluid">
       <div class="page-header">
@@ -12,12 +10,12 @@
           <div class="col-sm mb-2 mb-sm-0">
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb breadcrumb-no-gutter">
-                <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Classes</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Overview</li>
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href="{% url 'evaluator:class_list' %}">Classes</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Detail</li>
               </ol>
             </nav>
 
-            <h1 class="page-header-title">Overview</h1>
+            <h1 class="page-header-title">{{ object.name }}</h1>
           </div>
 
         </div>

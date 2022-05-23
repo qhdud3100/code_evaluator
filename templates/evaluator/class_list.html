@@ -1,5 +1,5 @@
 {% extends 'evaluator/base.html' %}
-{% load static %}
+{% load static bootstrap4 %}
 
 {% block content %}
   <body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl footer-offset">
@@ -15,7 +15,7 @@
           <div class="col-sm mb-2 mb-sm-0">
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb breadcrumb-no-gutter">
-                <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Classes</a></li>
+                <li class="breadcrumb-item">Classes</li>
                 <li class="breadcrumb-item active" aria-current="page">Overview</li>
               </ol>
             </nav>
@@ -24,8 +24,7 @@
           </div>
 
           <div class="col-sm-auto">
-            <a class="btn btn-primary" href="{% url 'evaluator:class_create' %}" data-toggle="modal"
-               data-target="#newProjectModal">
+            <a class="btn btn-outline-primary" href="{% url 'evaluator:class_create' %}">
               <i class="tio-add mr-1"></i> New Classroom
             </a>
           </div>
@@ -36,14 +35,9 @@
         <ul class="nav nav-tabs page-header-tabs">
           <li class="nav-item">
             <div class="nav-link active">
-              Classes <span class="badge badge-soft-dark ml-1">4</span>
+              Classes <span class="badge badge-soft-dark ml-1">{{ object_list.count }}</span>
             </div>
           </li>
-          {#          <li class="nav-item">#}
-          {#            <a class="nav-link" href="projects-timeline.html">#}
-          {#              Users#}
-          {#            </a>#}
-          {#          </li>#}
         </ul>
         <!-- End Nav -->
       </div>
@@ -51,62 +45,18 @@
 
       <!-- Card -->
       <div class="card">
-        <!-- Header -->
-        <div class="card-header">
-          <div class="row justify-content-between align-items-center flex-grow-1">
-            <div class="col-sm-6 col-md-4 mb-3 mb-sm-0">
-              <form>
-                <!-- Search -->
-                <div class="input-group input-group-merge input-group-flush">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">
-                      <i class="tio-search"></i>
-                    </div>
-                  </div>
-                  <input id="datatableSearch" type="search" class="form-control" placeholder="Search classes"
-                         aria-label="Search users">
-                </div>
-                <!-- End Search -->
-              </form>
-            </div>
-          </div>
-          <!-- End Row -->
-        </div>
-        <!-- End Header -->
-
         <!-- Table -->
         <div class="table-responsive datatable-custom">
-          <table id="datatable"
-                 class="table table-lg table-borderless table-thead-bordered table-nowrap table-align-middle card-table"
-                 data-hs-datatables-options='{
-                     "columnDefs": [{
-                        "targets": [0, 2, 3, 6, 7],
-                        "orderable": false
-                      }],
-                     "order": [],
-                     "info": {
-                       "totalQty": "#datatableWithPaginationInfoTotalQty"
-                     },
-                     "search": "#datatableSearch",
-                     "entries": "#datatableEntries",
-                     "pageLength": 15,
-                     "isResponsive": false,
-                     "isShowPaging": false,
-                     "pagination": "datatablePagination"
-                   }'>
+          <table
+            class="table table-lg table-borderless table-thead-bordered table-nowrap table-align-middle card-table">
             <thead class="thead-light">
             <tr>
               <th class="table-column-pr-0">
-                <div class="custom-control custom-checkbox">
-                  <input id="datatableCheckAll" type="checkbox" class="custom-control-input">
-                  <label class="custom-control-label" for="datatableCheckAll"></label>
-                </div>
+                Class Name
               </th>
-              <th class="table-column-pl-0">Class</th>
-              <th>Submissions</th>
+              <th class="table-column-pl-0">Submissions</th>
               <th>Members</th>
-              {#              <th>Status</th>#}
-              <th>Completion</th>
+              <th>Status</th>
               <th>Upcoming due</th>
             </tr>
             </thead>
@@ -114,14 +64,8 @@
             <tbody>
             {% for object in object_list %}
               <tr>
-                <td class="table-column-pr-0">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="usersDataCheck1">
-                    <label class="custom-control-label" for="usersDataCheck1"></label>
-                  </div>
-                </td>
                 <td class="table-column-pl-0">
-                  <a class="d-flex align-items-center" href="project.html">
+                  <a class="d-flex align-items-center" href="{% url 'evaluator:class_detail' object.pk %}">
                     {#                  <img class="avatar" src="{% static 'svg/brands/guideline.svg' %}" alt="Image Description">#}
                     <div class="ml-3">
                       <span class="d-block h5 text-hover-primary mb-0">{{ object.name }}</span>
@@ -164,7 +108,7 @@
                   <!-- End Avatar Group -->
                 </td>
                 <td>
-                  <span class="legend-indicator"></span>Upcoming
+                  <span class="legend-indicator"></span>{{ object.get_status_display }}
                 </td>
 
                 <td>May 29</td>
@@ -176,7 +120,7 @@
         </div>
 
         <div class="card-footer">
-          Footer Pagination
+            {% bootstrap_pagination page_obj justify_content='center'%}
         </div>
       </div>
     </div>

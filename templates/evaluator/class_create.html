@@ -3,22 +3,26 @@
 
 {% block content %}
   <main id="content" role="main" class="main">
-  <div class="content container-fluid">
-    <div class="page-header">
-      <div class="row align-items-end">
-        <div class="col-sm mb-2 mb-sm-0">
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb breadcrumb-no-gutter">
-              <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Classes</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Create</li>
-            </ol>
-          </nav>
-          <h1 class="page-header-title">Create Classroom</h1>
-        </div>
+    <div class="content container-fluid">
+      <div class="page-header">
+        <div class="row align-items-end">
+          <div class="col-sm mb-2 mb-sm-0">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb breadcrumb-no-gutter">
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href="{% url 'evaluator:class_list' %}">Classes</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Create</li>
+              </ol>
+            </nav>
+            <h1 class="page-header-title mb-5">Create Classroom</h1>
+          </div>
 
+        </div>
+        <form method="post" enctype="multipart/form-data" autocomplete="off" novalidate>
+          {% bootstrap_form form %}
+          {% csrf_token %}
+          <button type="submit" class="btn btn-block btn-outline-primary mt-5">Save</button>
+        </form>
       </div>
-      {% bootstrap_form form %}
     </div>
-  </div>
   </main>
 {% endblock %}

@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, TemplateView, CreateView
+from django.urls import reverse_lazy
 
 from evaluator.forms import ClassForm
 from evaluator.models import Classroom
@@ -8,6 +9,7 @@ from evaluator.models import Classroom
 class ClassList(LoginRequiredMixin, ListView):
     template_name = 'evaluator/class_list.html'
     queryset = Classroom.objects.all()
+    paginate_by = 10
 
 
 class ClassDetail(LoginRequiredMixin, DetailView):
@@ -19,6 +21,7 @@ class ClassCreate(LoginRequiredMixin, CreateView):
     template_name = 'evaluator/class_create.html'
     queryset = Classroom.objects.all()
     form_class = ClassForm
+    success_url = reverse_lazy('evaluator:class_list')
 
 
 class StudentList(LoginRequiredMixin, TemplateView):
