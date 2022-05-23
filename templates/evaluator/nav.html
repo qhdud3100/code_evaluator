@@ -1,7 +1,4 @@
 {% load static %}
-<script src="{% static 'vendor/hs-navbar-vertical-aside/hs-navbar-vertical-aside-mini-cache.js' %}"></script>
-
-<!-- ========== HEADER ========== -->
 
 <header id="header"
         class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-flush navbar-container navbar-bordered">
@@ -13,17 +10,6 @@
       {#        <img class="navbar-brand-logo-mini" src="{% static 'svg/logos/logo-short.svg' %}" alt="Logo">#}
       {#      </a>#}
       <!-- End Logo -->
-    </div>
-
-    <div class="navbar-nav-wrap-content-left">
-      <!-- Navbar Vertical Toggle -->
-      <button type="button" class="js-navbar-vertical-aside-toggle-invoker close mr-3">
-{#        <i class="tio-first-page navbar-vertical-aside-toggle-short-align" data-toggle="tooltip" data-placement="right"#}
-{#           title="Collapse"></i>#}
-        <i class="tio-last-page navbar-vertical-aside-toggle-full-align"
-           data-template='<div class="tooltip d-none d-sm-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
-           data-toggle="tooltip" data-placement="right" title="Expand"></i>
-      </button>
     </div>
 
     <!-- Secondary Content -->
@@ -220,7 +206,8 @@
                           </div>
                           <div class="col ml-n3">
                             <span class="card-title h5">from Google</span>
-                            <p class="card-text font-size-sm">Start using forms to capture the information of prospects
+                            <p class="card-text font-size-sm">Start using forms to capture the information of
+                              prospects
                               visiting your Google website</p>
                           </div>
                           <small class="col-auto text-muted text-cap">17dy</small>
@@ -529,34 +516,17 @@
     <!-- End Secondary Content -->
   </div>
 </header>
-
-
-<!-- ========== END HEADER ========== -->
-
-<!-- ========== MAIN CONTENT ========== -->
-<!-- Navbar Vertical -->
-
 <aside
-  class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered  ">
+  class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered">
   <div class="navbar-vertical-container">
     <div class="navbar-vertical-footer-offset">
       <div class="navbar-brand-wrapper justify-content-between">
         <!-- Logo -->
-
-
         {#        <a class="navbar-brand" href="./index.html" aria-label="Front">#}
         {#          <img class="navbar-brand-logo" src="{% static 'svg/logos/logo.svg' %}" alt="Logo">#}
         {#          <img class="navbar-brand-logo-mini" src="{% static 'svg/logos/logo-short.svg' %}" alt="Logo">#}
         {#        </a>#}
-
         <!-- End Logo -->
-
-        <!-- Navbar Vertical Toggle -->
-        <button type="button"
-                class="js-navbar-vertical-aside-toggle-invoker navbar-vertical-aside-toggle btn btn-icon btn-xs btn-ghost-dark">
-          <i class="tio-clear tio-lg"></i>
-        </button>
-        <!-- End Navbar Vertical Toggle -->
       </div>
 
       <!-- Content -->
@@ -859,7 +829,8 @@
                   <li class="nav-item">
                     <a class="nav-link " href="./project-files.html" title="Files">
                       <span class="tio-circle-outlined nav-indicator-icon"></span>
-                      <span class="text-truncate">Files <span class="badge badge-info badge-pill ml-1">Hot</span></span>
+                      <span class="text-truncate">Files <span
+                        class="badge badge-info badge-pill ml-1">Hot</span></span>
                     </a>
                   </li>
                   <li class="nav-item">
@@ -911,7 +882,8 @@
               <li class="nav-item">
                 <a class="nav-link " href="./apps-calendar.html" title="Calendar">
                   <span class="tio-circle nav-indicator-icon"></span>
-                  <span class="text-truncate">Calendar <span class="badge badge-info badge-pill ml-1">New</span></span>
+                  <span class="text-truncate">Calendar <span
+                    class="badge badge-info badge-pill ml-1">New</span></span>
                 </a>
               </li>
               <li class="nav-item">
@@ -1184,69 +1156,7 @@
               </li>
             </ul>
           </li>
-          <!-- End Help -->
 
-          <!-- Language -->
-          <li class="navbar-vertical-aside-has-menu nav-footer-item ">
-            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle " href="javascript:;"
-               title="Language">
-              <img class="avatar avatar-xss avatar-circle" src="{% static 'vendor/flag-icon-css/flags/1x1/us.svg' %}"
-                   alt="United States Flag">
-              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Language</span>
-            </a>
-
-            <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
-              <li class="nav-item">
-                <a class="nav-link" href="#" title="English (US)">
-                  <img class="avatar avatar-xss avatar-circle mr-2"
-                       src="{% static 'vendor/flag-icon-css/flags/1x1/us.svg' %}"
-                       alt="Flag">
-                  English (US)
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#" title="English (UK)">
-                  <img class="avatar avatar-xss avatar-circle mr-2"
-                       src="{% static 'vendor/flag-icon-css/flags/1x1/gb.svg' %}"
-                       alt="Flag">
-                  English (UK)
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#" title="Deutsch">
-                  <img class="avatar avatar-xss avatar-circle mr-2"
-                       src="{% static 'vendor/flag-icon-css/flags/1x1/de.svg' %}"
-                       alt="Flag">
-                  Deutsch
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#" title="Dansk">
-                  <img class="avatar avatar-xss avatar-circle mr-2"
-                       src="{% static 'vendor/flag-icon-css/flags/1x1/dk.svg' %}"
-                       alt="Flag">
-                  Dansk
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#" title="Italiano">
-                  <img class="avatar avatar-xss avatar-circle mr-2"
-                       src="{% static 'vendor/flag-icon-css/flags/1x1/it.svg' %}"
-                       alt="Flag">
-                  Italiano
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#" title="中文 (繁體)">
-                  <img class="avatar avatar-xss avatar-circle mr-2"
-                       src="{% static 'vendor/flag-icon-css/flags/1x1/cn.svg' %}"
-                       alt="Flag">
-                  中文 (繁體)
-                </a>
-              </li>
-            </ul>
-          </li>
-          <!-- End Language -->
         </ul>
       </div>
       <!-- End Content -->
@@ -1314,68 +1224,9 @@
             </div>
             <!-- End Other Links -->
           </li>
-
-          <li class="navbar-vertical-footer-list-item">
-            <!-- Language -->
-            <div class="hs-unfold">
-              <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;"
-                 data-hs-unfold-options='{
-                        "target": "#languageDropdown",
-                        "type": "css-animation",
-                        "animationIn": "slideInDown",
-                        "hideOnScroll": true
-                       }'>
-                <img class="avatar avatar-xss avatar-circle" src="{% static 'vendor/flag-icon-css/flags/1x1/us.svg' %}"
-                     alt="United States Flag">
-              </a>
-
-              <div id="languageDropdown"
-                   class="hs-unfold-content dropdown-unfold dropdown-menu navbar-vertical-footer-dropdown">
-                <span class="dropdown-header">Select language</span>
-                <a class="dropdown-item" href="#">
-                  <img class="avatar avatar-xss avatar-circle mr-2"
-                       src="{% static 'vendor/flag-icon-css/flags/1x1/us.svg' %}"
-                       alt="Flag">
-                  <span class="text-truncate pr-2" title="English">English (US)</span>
-                </a>
-                <a class="dropdown-item" href="#">
-                  <img class="avatar avatar-xss avatar-circle mr-2"
-                       src="{% static 'vendor/flag-icon-css/flags/1x1/gb.svg' %}"
-                       alt="Flag">
-                  <span class="text-truncate pr-2" title="English">English (UK)</span>
-                </a>
-                <a class="dropdown-item" href="#">
-                  <img class="avatar avatar-xss avatar-circle mr-2"
-                       src="{% static 'vendor/flag-icon-css/flags/1x1/de.svg' %}"
-                       alt="Flag">
-                  <span class="text-truncate pr-2" title="Deutsch">Deutsch</span>
-                </a>
-                <a class="dropdown-item" href="#">
-                  <img class="avatar avatar-xss avatar-circle mr-2"
-                       src="{% static 'vendor/flag-icon-css/flags/1x1/dk.svg' %}"
-                       alt="Flag">
-                  <span class="text-truncate pr-2" title="Dansk">Dansk</span>
-                </a>
-                <a class="dropdown-item" href="#">
-                  <img class="avatar avatar-xss avatar-circle mr-2"
-                       src="{% static 'vendor/flag-icon-css/flags/1x1/it.svg' %}"
-                       alt="Flag">
-                  <span class="text-truncate pr-2" title="Italiano">Italiano</span>
-                </a>
-                <a class="dropdown-item" href="#">
-                  <img class="avatar avatar-xss avatar-circle mr-2"
-                       src="{% static 'vendor/flag-icon-css/flags/1x1/cn.svg' %}"
-                       alt="Flag">
-                  <span class="text-truncate pr-2" title="中文 (繁體)">中文 (繁體)</span>
-                </a>
-              </div>
-            </div>
-            <!-- End Language -->
-          </li>
         </ul>
       </div>
       <!-- End Footer -->
     </div>
   </div>
 </aside>
-

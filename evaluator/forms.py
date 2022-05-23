@@ -1,8 +1,7 @@
 from allauth.account.forms import LoginForm
 from django.forms import ModelForm
 
-from evaluator import models
-from evaluator.models import Assignment, Submission
+from evaluator.models import Submission, Classroom
 
 
 class GoogleSocialLoginForm(LoginForm):
@@ -11,8 +10,10 @@ class GoogleSocialLoginForm(LoginForm):
         return super().login(*args, **kwargs)
 
 
-class SubmissionUploadForm(ModelForm):
+class ClassForm(ModelForm):
 
     class Meta:
-        model = Submission
-        fields = '__all__'
+        model = Classroom
+        fields = [
+            'status'
+        ]
