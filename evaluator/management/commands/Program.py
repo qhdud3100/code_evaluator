@@ -1,14 +1,19 @@
-from django.core.management import BaseCommand
-import os
-import sys
 import filecmp
-import re
 import subprocess
-from subprocess import CalledProcessError, TimeoutExpired
+import os
+from enum import Enum, auto
+from pathlib import Path
+import subprocess
+from django.core.management import BaseCommand
+
+EXECUTABLE_PATH_PREFIX = '/home/ubuntu/code_evaluator/executables/'
+SOURCE_PATH_PREFIX = '/home/ubuntu/code_evaluator/source_codes/'
+EXPECTED_OUTPUT_PATH_PREFIX = '/home/ubuntu/code_evaluator/expected_output/'
+INPUT_PATH_PREFIX = '/home/ubuntu/code_evaluator/input/'
 
 STATUS_CODES = {
     200: 'OK',
-    201: 'ACCEPTED',
+    201: 'CORRECT ANSWER',
     400: 'WRONG ANSWER',
     401: 'COMPILATION ERROR',
     402: 'RUNTIME ERROR',
@@ -17,97 +22,127 @@ STATUS_CODES = {
     408: 'TIME LIMIT EXCEEDED'
 }
 
+def code_evaluator():
+
+    # run professor code
+    prof_prog = Program('processor.cpp', 'assignment_1', 'processor_output', 2)
+    prof_prog.preprocess_path()
+
+    prof_prog.compile()
+    prof_prog.run()
+
+
+    # run student code
+    new_prog = Program('input.cpp', 'assignment_1', 'student_output', 2)
+    new_prog.preprocess_path()
+
+    compile_code = new_prog.compile()
+    if compile_code[0] != 200:
+        print("compile error of professor code: ", compile_code)
+        return compile_code
+
+    excute_code = new_prog.run()
+    if excute_code[0] != 200:
+        print("runtime error of professor code: ", excute_code)
+        return excute_code
+
+    # compare
+    compare_code = match(prof_prog.expected_output_path, new_prog.expected_output_path)
+    print(compare_code)
+
+
+class StrEnum(str, Enum):
+    def _generate_next_value_(name, start, count, last_values):
+        return name
+
+    def __repr__(self):
+        return self.name
+
+    def __str__(self):
+        return self.name
+
+
+
+class ProgrammingLanguage(StrEnum):
+    unknown = auto()
+    cpp = auto()
+    c = auto()
+
+
+
 class Program:
-    """ Class that handles all the methods of a user program """
+    def __init__(self, source_path, input_path, expected_output_path, timelimit):
+        self.source_path = source_path
+        self.executable_path = ''
+        self.input_path  = input_path
+        self.expected_output_path = expected_output_path
+        self.language    = ProgrammingLanguage.c
+        self.file_name   = ''
+        self.timelimit   = timelimit
 
-    def __init__(self, filename, inputfile, timelimit, expectedoutputfile):
-        """Receives a name of a file from the userIt must be a valid c, c++, java file """
-        self.fileName = filename  # Full name of the source code file
-        self.language = None  # Language
-        self.name = None  # File name without extension
-        self.inputFile = inputfile  # Input file
-        self.expectedOutputFile = expectedoutputfile  # Expected output file
-        self.actualOutputFile = "output.txt"  # Actual output file
-        self.timeLimit = timelimit  # Time limit set for execution in seconds
 
-    def isvalidfile(self):
-        """ Checks if the filename is valid """
-        validfile = re.compile("^(\S+)\.(java|cpp|c)$")
-        matches = validfile.match(self.fileName)
-        if matches:
-            self.name, self.language = matches.groups()
-            return True
-        return False
+
+    def preprocess_path(self):
+
+        if self.source_path[0] != '/':
+            self.source_path = SOURCE_PATH_PREFIX + self.source_path
+        if self.input_path != '/':
+            self.input_path = INPUT_PATH_PREFIX + self.input_path
+        if self.expected_output_path != '/':
+            self.expected_output_path = EXPECTED_OUTPUT_PATH_PREFIX + self.expected_output_path
+
+        self.executable_path = EXECUTABLE_PATH_PREFIX + Path(self.source_path).stem
+
+
+        if not os.path.exists(self.input_path):
+            print(self.input_path, "doesn't exist")
+            return 403, STATUS_CODES[403]
+
+        # if not os.path.exists(self.expected_output_path):
+        #     print(self.expected_output_path, "doesn't exist")
+        #     return 403
+
 
     def compile(self):
-        """ Compiles the given program, returns status code and errors """
 
         # Remove previous executables
-        if os.path.isfile(self.name):
-            os.remove(self.name)
+        if os.path.isfile(self.executable_path):
+            os.remove(self.executable_path)
 
-        # Check if files are present
-        if not os.path.isfile(self.fileName):
-            return 404, 'Missing file'
 
-        # Check language
-        cmd = None
-        if self.language == 'java':
-            cmd = 'javac {}'.format(self.fileName)
-        elif self.language == 'c':
-            cmd = 'gcc -o {0} {1}'.format(self.name, self.fileName)
-        elif self.language == 'cpp':
-            cmd = 'g++ -o {0} {1}'.format(self.name, self.fileName)
+        if not os.path.exists(self.source_path):
+            # print(self.source_path, "doesn't exist")
+            return 403,  STATUS_CODES[403]
+        self.language = os.path.splitext(self.source_path)[-1][1:]
 
-        # Invalid files
-        if cmd is None:
-            return 403, 'File is of invalid type'
 
-        try:
-            proc = subprocess.run(
-                cmd,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                universal_newlines=True
-            )
+        if self.language == ProgrammingLanguage.c:
+            proc = subprocess.run(['gcc', self.source_path, '-o', self.executable_path], stderr=subprocess.PIPE)
+        elif self.language == ProgrammingLanguage.cpp:
+            proc = subprocess.run(['g++', self.source_path, '-o', self.executable_path], stderr=subprocess.PIPE)
 
-            # Check for errors
-            if proc.returncode != 0:
-                return 401, proc.stderr
-            else:
-                return 200, None
-        except CalledProcessError as e:
-            print(e.output)
+        # Check for errors
+        if proc.returncode != 0:
+            return 401, proc.stderr
+        else:
+            return 200, STATUS_CODES[200]
+
+
 
     def run(self):
-        """ Runs the executable, returns status code and errors """
-
-        # Check if files are present
-        if not os.path.isfile(self.fileName) :
-            return 404, 'Missing executable file'
-
-        # Check language
-        cmd = None
-        if self.language == 'java':
-            cmd = 'java {}'.format(self.name)
-        elif self.language in ['c', 'cpp']:
-            cmd = self.name
-
-        # Invalid files
-        if cmd is None:
-            return 403, 'File is of invalid type'
-
+        if not os.path.exists(self.executable_path):
+            return 403, self.executable_path + " doesn't exist"
         try:
-            with open('output.txt', 'w') as fout:
+            with open(self.expected_output_path, 'w') as fout:
                 fin = None
-                if self.inputFile and os.path.isfile(self.inputFile):
-                    fin = open(self.inputFile, 'r')
+                if self.input_path and os.path.isfile(self.input_path):
+                    fin = open(self.input_path, 'r')
                 proc = subprocess.run(
-                    cmd,
+                    self.executable_path,
                     stdin=fin,
                     stdout=fout,
                     stderr=subprocess.PIPE,
-                    timeout=self.timeLimit,
+                    timeout=self.timelimit,
                     universal_newlines=True
                 )
 
@@ -115,66 +150,27 @@ class Program:
             if proc.returncode != 0:
                 return 402, proc.stderr
             else:
-                return 200, None
-        except TimeoutExpired as tle:
+                return 200, STATUS_CODES[200]
+
+        except subprocess.TimeoutExpired as tle:
             return 408, tle
-        except CalledProcessError as e:
+        except subprocess.CalledProcessError as e:
             print(e.output)
 
         # Perform cleanup
-        if self.language == 'java':
-            os.remove('{}.class'.format(self.name))
-        elif self.language in ['c', 'cpp']:
-            os.remove(self.name)
+        os.remove(self.executable_path)
 
 
-    def match(self):
-        if os.path.isfile(self.actualOutputFile) and os.path.isfile(self.expectedOutputFile):
-            result = filecmp.cmp(self.actualOutputFile, self.expectedOutputFile)
-            if result:
-                return 201, None
-            else:
-                return 400, None
+def match(expected_output_file, actual_outputFile):
+    if os.path.isfile(actual_outputFile) and os.path.isfile(expected_output_file):
+        result = filecmp.cmp(actual_outputFile, expected_output_file)
+        if result:
+            return 201, STATUS_CODES[201]
         else:
-            return 404, 'Missing output files'
-
-
-
-
-def codechecker(filename, inputfile=None, expectedoutput=None, timeout=1, check=True):
-    newprogram = Program(
-        filename=filename,
-        inputfile=inputfile,
-        timelimit=timeout,
-        expectedoutputfile=expectedoutput
-    )
-    if newprogram.isvalidfile():
-        print('Executing code checker...')
-        # Compile program
-        compileResult, compileErrors = newprogram.compile()
-        print('Compiling... {0}({1})'.format(STATUS_CODES[compileResult], compileResult), flush=True)
-        if compileErrors is not None:
-            sys.stdout.flush()
-            print(compileErrors, file=sys.stderr)
-            exit(0)
-
-        # Run program
-        runtimeResult, runtimeErrors = newprogram.run()
-        print('Running... {0}({1})'.format(STATUS_CODES[runtimeResult], runtimeResult), flush=True)
-        if runtimeErrors is not None:
-            sys.stdout.flush()
-            print(runtimeErrors, file=sys.stderr)
-            exit(0)
-
-        if check:
-            # Match expected output
-            matchResult, matchErrors = newprogram.match()
-            print('Verdict... {0}({1})'.format(STATUS_CODES[matchResult], matchResult), flush=True)
-            if matchErrors is not None:
-                sys.stdout.flush()
-                print(matchErrors, file=sys.stderr)
-                exit(0)
+            return 400, STATUS_CODES[400]
     else:
-        print('FATAL: Invalid file', file=sys.stderr)
+        return 404, STATUS_CODES[404]
 
 
+# main
+code_evaluator()
