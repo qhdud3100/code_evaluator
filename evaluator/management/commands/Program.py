@@ -3,7 +3,6 @@ import os
 from enum import Enum, auto
 from pathlib import Path
 import subprocess
-from django.core.management import BaseCommand
 
 EXECUTABLE_PATH_PREFIX = '/home/ubuntu/code_evaluator/executables/'
 SOURCE_PATH_PREFIX = '/home/ubuntu/code_evaluator/source_codes/'
