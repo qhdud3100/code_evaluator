@@ -6,6 +6,7 @@ app_name = 'evaluator'
 urlpatterns = [
     path('', ClassList.as_view(), name='class_list'),
     path('students/', StudentList.as_view(), ),
+    path('detail/<int:pk>/', ClassDetail.as_view(), name='class_detail'),
     path('upload/', SubmissionUpload.as_view(), ),
     path('result/', EvaluationResult.as_view(), ),
 ]

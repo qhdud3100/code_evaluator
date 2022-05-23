@@ -116,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -138,11 +138,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Google Social Login
 
+LOGIN_REDIRECT_URL = ''
+LOGOUT_REDIRECT_URL = '/'
+
 # SOCIALACCOUNT_AUTO_SIGN_UP = True
 LOGIN_URL = '/accounts/google/login/'
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
-LOGIN_REDIRECT_URL = ''
 AUTH_USER_MODEL = 'accounts.User'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SOCIALACCOUNT_ADAPTER = 'accounts.adapters.HandongSocialAccountAdapter'
