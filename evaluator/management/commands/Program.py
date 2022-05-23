@@ -1,5 +1,4 @@
 import filecmp
-import subprocess
 import os
 from enum import Enum, auto
 from pathlib import Path
@@ -22,10 +21,10 @@ STATUS_CODES = {
     408: 'TIME LIMIT EXCEEDED'
 }
 
-def code_evaluator():
+def code_evaluator(prof_code, student_code, input, time_limit):
 
     # run professor code
-    prof_prog = Program('processor.cpp', 'assignment_1', 'processor_output', 2)
+    prof_prog = Program(prof_code, input, 'professor_output', time_limit)
     prof_prog.preprocess_path()
 
     prof_prog.compile()
@@ -33,7 +32,7 @@ def code_evaluator():
 
 
     # run student code
-    new_prog = Program('input.cpp', 'assignment_1', 'student_output', 2)
+    new_prog = Program(student_code, input, 'professor_output', time_limit)
     new_prog.preprocess_path()
 
     compile_code = new_prog.compile()
@@ -173,4 +172,4 @@ def match(expected_output_file, actual_outputFile):
 
 
 # main
-code_evaluator()
+code_evaluator("instructor.cpp", "student.cpp", "test_input",3)
