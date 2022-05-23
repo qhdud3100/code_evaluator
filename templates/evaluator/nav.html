@@ -50,40 +50,6 @@
               <!-- Header -->
               <div class="card-header">
                 <span class="card-title h4">Notifications</span>
-
-                <!-- Unfold -->
-                <div class="hs-unfold">
-                  <a class="js-hs-unfold-invoker btn btn-icon btn-sm btn-ghost-secondary rounded-circle"
-                     href="javascript:;"
-                     data-hs-unfold-options='{
-                             "target": "#notificationSettingsOneDropdown",
-                             "type": "css-animation"
-                           }'>
-                    <i class="tio-more-vertical"></i>
-                  </a>
-                  <div id="notificationSettingsOneDropdown"
-                       class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right">
-                    <span class="dropdown-header">Settings</span>
-                    <a class="dropdown-item" href="#">
-                      <i class="tio-archive dropdown-item-icon"></i> Archive all
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      <i class="tio-all-done dropdown-item-icon"></i> Mark all as read
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      <i class="tio-toggle-off dropdown-item-icon"></i> Disable notifications
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      <i class="tio-gift dropdown-item-icon"></i> What's new?
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <span class="dropdown-header">Feedback</span>
-                    <a class="dropdown-item" href="#">
-                      <i class="tio-chat-outlined dropdown-item-icon"></i> Report
-                    </a>
-                  </div>
-                </div>
-                <!-- End Unfold -->
               </div>
               <!-- End Header -->
 
@@ -95,30 +61,30 @@
                        aria-labelledby="notificationNavOne-tab">
                     <ul class="list-group list-group-flush navbar-card-list-group">
                       {% for notification in notifications %}
-                      <li class="list-group-item custom-checkbox-list-wrapper">
-                        <div class="row">
-                          <div class="col-auto position-static">
-                            <div class="d-flex align-items-center">
-                              <div class="custom-control custom-checkbox custom-checkbox-list">
-                                <input type="checkbox" class="custom-control-input" id="notificationCheck5">
-                                <label class="custom-control-label" for="notificationCheck5"></label>
-                                <span class="custom-checkbox-list-stretched-bg"></span>
-                              </div>
-                              <div class="avatar avatar-sm avatar-circle">
-                                <img class="avatar-img" src="{% static 'img/160x160/img7.jpg' %}"
-                                     alt="Image Description">
+                        <li class="list-group-item custom-checkbox-list-wrapper">
+                          <div class="row">
+                            <div class="col-auto position-static">
+                              <div class="d-flex align-items-center">
+                                <div class="custom-control custom-checkbox custom-checkbox-list">
+                                  <input type="checkbox" class="custom-control-input" id="notificationCheck5">
+                                  <label class="custom-control-label" for="notificationCheck5"></label>
+                                  <span class="custom-checkbox-list-stretched-bg"></span>
+                                </div>
+                                <div class="avatar avatar-sm avatar-circle">
+                                  <img class="avatar-img" src="{% static 'img/160x160/img7.jpg' %}"
+                                       alt="Image Description">
+                                </div>
                               </div>
                             </div>
+                            <div class="col ml-n3">
+                              <span class="card-title h5">Sara Villar</span>
+                              <p class="card-text font-size-sm">completed <i
+                                class="tio-folder-bookmarked text-primary"></i> FD-7 task</p>
+                            </div>
+                            <small class="col-auto text-muted text-cap">2mn</small>
                           </div>
-                          <div class="col ml-n3">
-                            <span class="card-title h5">Sara Villar</span>
-                            <p class="card-text font-size-sm">completed <i
-                              class="tio-folder-bookmarked text-primary"></i> FD-7 task</p>
-                          </div>
-                          <small class="col-auto text-muted text-cap">2mn</small>
-                        </div>
-                        <a class="stretched-link" href="#"></a>
-                      </li>
+                          <a class="stretched-link" href="#"></a>
+                        </li>
                       {% endfor %}
                     </ul>
                   </div>
