@@ -39,6 +39,7 @@
 
 </head>
 
+{% block content-outer %}
 <body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl footer-offset">
 {% include 'evaluator/nav.html' %}
 {% block content %}{% endblock %}
@@ -158,5 +159,5 @@
     if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="{% static 'vendor/babel-polyfill/polyfill.min.js' %}"><\/script>');
 </script>
 </body>
-
+{% endblock %}
 </html>
