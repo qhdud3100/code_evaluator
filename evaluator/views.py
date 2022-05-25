@@ -12,14 +12,16 @@ class ClassList(LoginRequiredMixin, ListView):
     paginate_by = 10
 
 
-class ClassDetail(LoginRequiredMixin, DetailView):
+class ClassDetail(LoginRequiredMixin, ListView):
     template_name = 'evaluator/class_detail.html'
-    queryset = Classroom.objects.all()
-    '''
+    queryset = []
+
     def get_context_data(self, **kwargs):
         context = super(ClassDetail,self).get_context_data()
-        context['Assignments'] = Assignment.objects.filter(pk=1)
-    '''
+        context['Assignments'] = Assignment.objects.all().filter(pk=1)
+
+        return context
+
 
 class ClassCreate(LoginRequiredMixin, CreateView):
     template_name = 'evaluator/class_create.html'
@@ -32,6 +34,7 @@ class StudentList(LoginRequiredMixin, TemplateView):
     template_name = 'evaluator/student_list.html'
 
 
-class EvaluationResult(LoginRequiredMixin, DetailView):
+class EvaluationResult(LoginRequiredMixin, ListView):
     template_name = 'evaluator/evaluation_result.html'
-    object = None
+    #object = None
+    queryset = []
