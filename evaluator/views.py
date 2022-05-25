@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView, TemplateView, CreateView
 from django.urls import reverse_lazy
 
 from evaluator.forms import ClassForm
-from evaluator.models import Classroom
+from evaluator.models import Classroom, Assignment
 
 
 class ClassList(LoginRequiredMixin, ListView):
@@ -15,7 +15,11 @@ class ClassList(LoginRequiredMixin, ListView):
 class ClassDetail(LoginRequiredMixin, DetailView):
     template_name = 'evaluator/class_detail.html'
     queryset = Classroom.objects.all()
-
+    '''
+    def get_context_data(self, **kwargs):
+        context = super(ClassDetail,self).get_context_data()
+        context['Assignments'] = Assignment.objects.filter(pk=1)
+    '''
 
 class ClassCreate(LoginRequiredMixin, CreateView):
     template_name = 'evaluator/class_create.html'

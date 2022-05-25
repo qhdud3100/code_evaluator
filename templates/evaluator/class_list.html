@@ -23,11 +23,21 @@
             <h1 class="page-header-title">Overview</h1>
           </div>
 
-          <div class="col-sm-auto">
-            <a class="btn btn-outline-primary" href="{% url 'evaluator:class_create' %}">
-              <i class="tio-add mr-1"></i> New Classroom
-            </a>
-          </div>
+
+            {% if request.user.last_name == '학부생' %}
+              <div class="col-sm-auto">
+                <a class="btn btn-outline-primary" href="{% url 'evaluator:class_create' %}">
+                  <i class="tio-add mr-1"></i> Join Classroom
+                </a>
+              </div>
+            {% endif %}
+            {% if request.user.last_name == '교수님' %}
+                <div class="col-sm-auto">
+                <a class="btn btn-outline-primary" href="{% url 'evaluator:class_create' %}">
+                  <i class="tio-add mr-1"></i> New Classroom
+                </a>
+              </div>
+            {% endif %}
         </div>
         <!-- End Row -->
 
@@ -54,10 +64,9 @@
               <th class="table-column-pr-0">
                 Class Name
               </th>
-              <th class="table-column-pl-0">Submissions</th>
-              <th>Members</th>
+              <th class="table-column-pl-0">Instructor</th>
+              <th>Created Date</th>
               <th>Status</th>
-              <th>Upcoming due</th>
             </tr>
             </thead>
 
@@ -69,49 +78,18 @@
                     {#                  <img class="avatar" src="{% static 'svg/brands/guideline.svg' %}" alt="Image Description">#}
                     <div class="ml-3">
                       <span class="d-block h5 text-hover-primary mb-0">{{ object.name }}</span>
-                      <span class="d-block font-size-sm text-body">Updated 2 minutes ago</span>
                     </div>
                   </a>
                 </td>
                 <td>
-                  <div class="d-flex align-items-center">
-                    12 <a class="badge badge-soft-dark ml-1" href="javascript:;" data-toggle="tooltip"
-                          data-placement="top" title="tasks completed today">+2</a>
-                  </div>
+                    <span class="d-block h5 text-hover-primary mb-0">{{ object.status }}</span>
                 </td>
-                <td>
-                  <!-- Avatar Group -->
-                  <div class="avatar-group avatar-group-xs avatar-circle">
-                    <a class="avatar" href="user-profile.html" data-toggle="tooltip" data-placement="top"
-                       title="Ella Lauda">
-                      <img class="avatar-img" src="{% static 'img/160x160/img9.jpg' %}" alt="Image Description">
-                    </a>
-                    <a class="avatar" href="user-profile.html" data-toggle="tooltip" data-placement="top"
-                       title="David Harrison">
-                      <img class="avatar-img" src="{% static 'img/160x160/img3.jpg' %}" alt="Image Description">
-                    </a>
-                    <a class="avatar avatar-soft-dark" href="user-profile.html" data-toggle="tooltip"
-                       data-placement="top"
-                       title="Antony Taylor">
-                      <span class="avatar-initials">A</span>
-                    </a>
-                    <a class="avatar avatar-soft-info" href="user-profile.html" data-toggle="tooltip"
-                       data-placement="top"
-                       title="Sara Iwens">
-                      <span class="avatar-initials">S</span>
-                    </a>
-                    <a class="avatar" href="user-profile.html" data-toggle="tooltip" data-placement="top"
-                       title="Finch Hoot">
-                      <img class="avatar-img" src="{% static 'img/160x160/img5.jpg' %}" alt="Image Description">
-                    </a>
-                  </div>
-                  <!-- End Avatar Group -->
-                </td>
+                <td>{{ object.created }}</td>
                 <td>
                   <span class="legend-indicator"></span>{{ object.get_status_display }}
                 </td>
 
-                <td>May 29</td>
+
               </tr>
             {% endfor %}
 

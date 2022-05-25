@@ -261,12 +261,12 @@
               <div class="dropdown-item-text">
                 <div class="media align-items-center">
 
-                    {% if user.is_authenticated %}
+                    {% if request.user.is_authenticated %}
                   <div class="avatar avatar-sm avatar-circle mr-2">
-                      {% if user.last_name == '학부생' %}
+                      {% if request.user.last_name == '학부생' %}
                           <img class="avatar-img" src="{% static 'img/student.png' %}" alt="Image Description">
                       {% endif %}
-                      {% if user.last_name == '교수님' %}
+                      {% if request.user.last_name == '교수님' %}
                           <img class="avatar-img" src="{% static 'img/professor.png' %}" alt="Image Description">
                       {% endif %}
                   </div>
