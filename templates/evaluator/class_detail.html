@@ -38,18 +38,18 @@
                 {% for assignment in assignments %}
                   <tr>
                     <td>
-                      <a href="{% url 'evaluator:upload' %}">
+                      <a href="{% url 'evaluator:assignment' assignment.pk %}">
                           <span class="d-block h5 text-hover-primary mb-0">{{ assignment.name }}</span>
                       </a>
                     <td>
-                         <small class="d-block h5 text-hover-primary mb-0">dudate</small>
+                         <small class="d-block h5 text-hover-primary mb-0">{{ assignment.due }}</small>
                         </td>
                     <td>
-                    <small class="d-block h5 text-hover-primary mb-0">activate</small>
+                    <small class="d-block h5 text-hover-primary mb-0">{{ assignment.status }}</small>
                     </td>
                       </a>
                     </td>
-                    <td><a href="../result/">result</a></td>
+                    <td><a href="{% url 'evaluator:result' assignment.pk %}">result</a></td>
                   </tr>
                 {% endfor %}
 

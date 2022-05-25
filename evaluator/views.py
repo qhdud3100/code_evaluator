@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView, TemplateView, CreateView
 from django.urls import reverse_lazy
 
 from evaluator.forms import ClassForm
-from evaluator.models import Classroom, Assignment
+from evaluator.models import Classroom, Assignment, Submission
 
 
 class ClassList(LoginRequiredMixin, ListView):
@@ -34,14 +34,16 @@ class ClassCreate(LoginRequiredMixin, CreateView):
 class StudentList(LoginRequiredMixin, TemplateView):
     template_name = 'evaluator/student_list.html'
 
-
-class EvaluationResult(LoginRequiredMixin, DetailView):
+class EvaluationResult(LoginRequiredMixin, ListView):
     template_name = 'evaluator/evaluation_result.html'
-    object = None
+    queryset = Submission.objects.all()
 
-class AssignmentUpload(LoginRequiredMixin,CreateView):
+class AssignmentUpload(LoginRequiredMixin,DetailView):
     template_name = 'evaluator/assignment_upload.html'
-    queryset = Classroom.objects.all()
-    form_class = ClassForm
-    success_url = reverse_lazy('evaluator:class_detail')
+    queryset = Submission.objects.all()
+    # form_class = ClassForm
+    # success_url = reverse_lazy('evaluator:class_detail')
 
+class AssignmentNotice(LoginRequiredMixin, DetailView):
+    template_name = 'evaluator/assignment_notification.html'
+    queryset = Assignment.objects.all()
