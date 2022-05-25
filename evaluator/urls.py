@@ -9,4 +9,5 @@ urlpatterns = [
     path('create/', ClassCreate.as_view(), name='class_create'),
     path('students/', StudentList.as_view(), ),
     path('result/', EvaluationResult.as_view(), ),
+    path('upload/', AssignmentUpload.as_view(), name='upload')
 ]

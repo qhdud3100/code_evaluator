@@ -35,23 +35,23 @@
                 </thead>
 
                 <tbody>
-                {% for student in students %}
+{#                {% for student in students %}#}
                   <tr>
                     <td>
-                      <a href="../upload/">
-                          <span class="d-block h5 text-hover-primary mb-0">{{ student.title }}</span>
+                      <a href="{% url 'evaluator:upload' %}">
+                          <span class="d-block h5 text-hover-primary mb-0">title</span>
                       </a>
                     <td>
-                         <small class="d-block h5 text-hover-primary mb-0">{{ student.duedate }}</small>
+                         <small class="d-block h5 text-hover-primary mb-0">dudate</small>
                         </td>
                     <td>
-                    <small class="d-block h5 text-hover-primary mb-0">{{ student.activate }}</small>
+                    <small class="d-block h5 text-hover-primary mb-0">activate</small>
                     </td>
                       </a>
                     </td>
-                    <td><a href="../result/">{{student.result}}</a></td>
+                    <td><a href="../result/">result</a></td>
                   </tr>
-                {% endfor %}
+{#                {% endfor %}#}
 
 
                 </tbody>

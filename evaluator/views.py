@@ -15,6 +15,7 @@ class ClassList(LoginRequiredMixin, ListView):
 class ClassDetail(LoginRequiredMixin, DetailView):
     template_name = 'evaluator/class_detail.html'
     queryset = Classroom.objects.all()
+
     '''
     def get_context_data(self, **kwargs):
         context = super(ClassDetail,self).get_context_data()
@@ -35,3 +36,10 @@ class StudentList(LoginRequiredMixin, TemplateView):
 class EvaluationResult(LoginRequiredMixin, DetailView):
     template_name = 'evaluator/evaluation_result.html'
     object = None
+
+class AssignmentUpload(LoginRequiredMixin,CreateView):
+    template_name = 'evaluator/assignment_upload.html'
+    queryset = Classroom.objects.all()
+    form_class = ClassForm
+    success_url = reverse_lazy('evaluator:class_detail')
+

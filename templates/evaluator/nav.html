@@ -392,20 +392,15 @@
               <i class="tio-home-vs-1-outlined nav-icon"></i>
               <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Dashboards</span>
             </a>
-
             <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
+                {% for object in object_list %}
               <li class="nav-item">
-                <a class="nav-link " href="./index.html" title="Default">
+                <a class="nav-link" href="{% url 'evaluator:class_detail' object.pk %}">
                   <span class="tio-circle nav-indicator-icon"></span>
-                  <span class="text-truncate">Default</span>
+                  <span class="text-truncate">{{ object.name }}</span>
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link " href="./dashboard-alternative.html" title="Alternative">
-                  <span class="tio-circle nav-indicator-icon"></span>
-                  <span class="text-truncate">Alternative</span>
-                </a>
-              </li>
+                {% endfor%}
             </ul>
           </li>
           <!-- End Dashboards -->
@@ -414,6 +409,7 @@
             <small class="nav-subtitle" title="Pages">Pages</small>
             <small class="tio-more-horizontal nav-subtitle-replacer"></small>
           </li>
+
 
           <!-- Pages -->
           <li class="navbar-vertical-aside-has-menu show">

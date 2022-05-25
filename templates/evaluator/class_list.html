@@ -72,27 +72,27 @@
 
             <tbody>
             {% for object in object_list %}
-              <tr>
-                <td class="table-column-pl-0">
-                  <a class="d-flex align-items-center" href="{% url 'evaluator:class_detail' object.pk %}">
-                    {#                  <img class="avatar" src="{% static 'svg/brands/guideline.svg' %}" alt="Image Description">#}
-                    <div class="ml-3">
-                      <span class="d-block h5 text-hover-primary mb-0">{{ object.name }}</span>
-                    </div>
-                  </a>
-                </td>
-                <td>
-                    <span class="d-block h5 text-hover-primary mb-0">{{ object.status }}</span>
-                </td>
-                <td>{{ object.created }}</td>
-                <td>
-                  <span class="legend-indicator"></span>{{ object.get_status_display }}
-                </td>
-
-
-              </tr>
+            <tr>
+              <td class="table-column-pl-0">
+                <a class="d-flex align-items-center" href="{% url 'evaluator:class_detail' object.pk %}">
+{#                  <img class="avatar" src="{% static 'svg/brands/guideline.svg' %}" alt="Image Description">#}
+                  <div class="ml-3">
+                    <span class="d-block h5 text-hover-primary mb-0">{{ object.name }}</span>
+                  </div>
+                </a>
+              </td>
+              <td>
+                <span class="d-block h5 text-hover-primary mb-0">{{ object.instructor }}</span>
+              </td>
+              <td>
+                <!-- Avatar Group -->
+                  <span class="d-block h5 text-hover-primary mb-0">{{ object.created }}</span>
+                <!-- End Avatar Group -->
+              </td>
+              <td>
+                <span class="d-block h5 text-hover-primary mb-0">{{ object.status }}</span>
+            </tr>
             {% endfor %}
-
             </tbody>
           </table>
         </div>
