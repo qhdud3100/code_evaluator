@@ -16,11 +16,13 @@ class ClassDetail(LoginRequiredMixin, DetailView):
     template_name = 'evaluator/class_detail.html'
     queryset = Classroom.objects.all()
 
-    '''
     def get_context_data(self, **kwargs):
         context = super(ClassDetail,self).get_context_data()
-        context['Assignments'] = Assignment.objects.filter(pk=1)
-    '''
+        context['assignments'] = Assignment.objects.filter(
+            classroom=self.object,
+
+        ).order_by('-created')
+        return context
 
 class ClassCreate(LoginRequiredMixin, CreateView):
     template_name = 'evaluator/class_create.html'

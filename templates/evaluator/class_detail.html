@@ -35,11 +35,11 @@
                 </thead>
 
                 <tbody>
-{#                {% for student in students %}#}
+                {% for assignment in assignments %}
                   <tr>
                     <td>
                       <a href="{% url 'evaluator:upload' %}">
-                          <span class="d-block h5 text-hover-primary mb-0">title</span>
+                          <span class="d-block h5 text-hover-primary mb-0">{{ assignment.name }}</span>
                       </a>
                     <td>
                          <small class="d-block h5 text-hover-primary mb-0">dudate</small>
@@ -51,7 +51,7 @@
                     </td>
                     <td><a href="../result/">result</a></td>
                   </tr>
-{#                {% endfor %}#}
+                {% endfor %}
 
 
                 </tbody>
