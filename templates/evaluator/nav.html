@@ -4,11 +4,8 @@
         class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-flush navbar-container navbar-bordered">
   <div class="navbar-nav-wrap">
     <div class="navbar-brand-wrapper">
-      <!-- Logo -->
-      {#      <a class="navbar-brand" href="./index.html" aria-label="Front">#}
-      {#        <img class="navbar-brand-logo" src="{% static 'svg/logos/logo.svg' %}" alt="Logo">#}
-      {#        <img class="navbar-brand-logo-mini" src="{% static 'svg/logos/logo-short.svg' %}" alt="Logo">#}
-      {#      </a>#}
+       <!-- Logo -->
+        <img style="display: block; margin: 0 auto; height:60px; width:140px;" src="{% static 'img/logo.png' %}" alt="Logo" onclick="location.href='{% url 'evaluator:class_list' %}'">
       <!-- End Logo -->
     </div>
 
@@ -248,7 +245,12 @@
                        "type": "css-animation"
                      }'>
               <div class="avatar avatar-sm avatar-circle">
-                <img class="avatar-img" src="{% static 'img/160x160/img6.jpg' %}" alt="Image Description">
+                {% if user.last_name == '학부생' %}
+                          <img class="avatar-img" src="{% static 'img/student.png' %}" alt="Image Description">
+                      {% endif %}
+                      {% if user.last_name == '교수님' %}
+                          <img class="avatar-img" src="{% static 'img/professor.png' %}" alt="Image Description">
+                      {% endif %}
                 <span class="avatar-status avatar-sm-status avatar-status-success"></span>
               </div>
             </a>
@@ -258,13 +260,21 @@
                  style="width: 16rem;">
               <div class="dropdown-item-text">
                 <div class="media align-items-center">
+
+                    {% if user.is_authenticated %}
                   <div class="avatar avatar-sm avatar-circle mr-2">
-                    <img class="avatar-img" src="{% static 'img/160x160/img6.jpg' %}" alt="Image Description">
+                      {% if user.last_name == '학부생' %}
+                          <img class="avatar-img" src="{% static 'img/student.png' %}" alt="Image Description">
+                      {% endif %}
+                      {% if user.last_name == '교수님' %}
+                          <img class="avatar-img" src="{% static 'img/professor.png' %}" alt="Image Description">
+                      {% endif %}
                   </div>
                   <div class="media-body">
                     <span class="card-title h5">{{ request.user.first_name }} {{ request.user.last_name }}</span>
                     <span class="card-text">{{ request.user.email }}</span>
                   </div>
+                {% endif %}
                 </div>
               </div>
 
@@ -366,13 +376,10 @@
   class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered">
   <div class="navbar-vertical-container">
     <div class="navbar-vertical-footer-offset">
-      <div class="navbar-brand-wrapper justify-content-between">
+      <div class ="navbar-brand-wrapper justify-content-between">
         <!-- Logo -->
-        {#        <a class="navbar-brand" href="./index.html" aria-label="Front">#}
-        {#          <img class="navbar-brand-logo" src="{% static 'svg/logos/logo.svg' %}" alt="Logo">#}
-        {#          <img class="navbar-brand-logo-mini" src="{% static 'svg/logos/logo-short.svg' %}" alt="Logo">#}
-        {#        </a>#}
-        <!-- End Logo -->
+        <img style="display: block; margin: 0 auto; height:60px; width:140px;" src="{% static 'img/logo.png' %}" alt="Logo" onclick="location.href='{% url 'evaluator:class_list' %}'">
+      <!-- End Logo -->
       </div>
 
       <!-- Content -->
