@@ -1,6 +1,10 @@
 {% extends 'evaluator/base.html' %}
 {% load static bootstrap4 %}
+
 {% block content %}
+  <body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl footer-offset">
+
+  {% include 'evaluator/nav.html' %}
 
   <main id="content" role="main" class="main">
     <!-- Content -->
@@ -71,14 +75,13 @@
             <tr>
               <td class="table-column-pl-0">
                 <a class="d-flex align-items-center" href="{% url 'evaluator:class_detail' object.pk %}">
-{#                  <img class="avatar" src="{% static 'svg/brands/guideline.svg' %}" alt="Image Description">#}
                   <div class="ml-3">
                     <span class="d-block h5 text-hover-primary mb-0">{{ object.name }}</span>
                   </div>
                 </a>
               </td>
               <td>
-                <span class="d-block h5 text-hover-primary mb-0">{{ object.instructors.all.0.first_name }} {{ object.instructors.all.0.last_name }}</span>
+                <span class="d-block h5 text-hover-primary mb-0">{{ object.instructor }}</span>
               </td>
               <td>
                 <!-- Avatar Group -->
@@ -97,10 +100,9 @@
             {% bootstrap_pagination page_obj justify_content='center'%}
         </div>
       </div>
-      <!-- End Card -->
     </div>
-    <!-- End Content -->
   </main>
 
+  </body>
 {% endblock %}
 

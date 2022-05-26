@@ -2,8 +2,10 @@ from pprint import pprint
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.views.generic import ListView, DetailView, TemplateView, CreateView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
 from evaluator.forms import ClassForm, SubmissionForm
 from evaluator.models import Classroom, Assignment, Submission
@@ -21,11 +23,42 @@ class ClassDetail(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ClassDetail, self).get_context_data()
+
         context['assignments'] = Assignment.objects.filter(
             classroom=self.object,
-
         ).order_by('-created')
+
+        # tmp = Assignment.objects.filter(
+        #     classroom=self.object,
+        # ).order_by('-created')
+
+        context['submissions'] = Submission.objects.filter(
+            user=self.request.user,
+        )
+
+
+
+        # print("here")
+        # print(tmp)
+        # print(tmp[0])
+        # print(self.request.user)
+        # print("here2")
+        #
+        # set1 = Submission.objects.first()
+        #
+        # for i in tmp:
+        #     tmp2 = Submission.objects.filter(
+        #         assignment=i,
+        #         user=self.request.user,
+        #     )
+        #     set1 = set1 | tmp2
+        # context['submissions'] = set1
+        # print(tmp2)
+        # print(context['submissions'])
+        # print("hihihihihiihhi")
+
         return context
+
 
 
 class ClassCreate(LoginRequiredMixin, CreateView):
@@ -37,11 +70,6 @@ class ClassCreate(LoginRequiredMixin, CreateView):
 
 class StudentList(LoginRequiredMixin, TemplateView):
     template_name = 'evaluator/student_list.html'
-
-
-class EvaluationResult(LoginRequiredMixin, ListView):
-    template_name = 'evaluator/evaluation_result.html'
-    queryset = Submission.objects.all()
 
 
 class SubmissionCreate(LoginRequiredMixin, SuccessMessageMixin, CreateView):
@@ -71,3 +99,9 @@ class SubmissionCreate(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 class AssignmentNotice(LoginRequiredMixin, DetailView):
     template_name = 'evaluator/assignment_notification.html'
     queryset = Assignment.objects.all()
+
+class EvaluationResult(LoginRequiredMixin, DetailView):
+    template_name = 'evaluator/evaluation_result.html'
+    queryset = Submission.objects.all()
+
+
