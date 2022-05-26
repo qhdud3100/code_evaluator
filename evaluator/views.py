@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, TemplateView, CreateView
 from django.urls import reverse_lazy
 
-from evaluator.forms import ClassForm
+from evaluator.forms import ClassForm, SubmissionForm
 from evaluator.models import Classroom, Assignment, Submission
 
 
@@ -38,12 +38,18 @@ class EvaluationResult(LoginRequiredMixin, ListView):
     template_name = 'evaluator/evaluation_result.html'
     queryset = Submission.objects.all()
 
-class AssignmentUpload(LoginRequiredMixin,DetailView):
+class AssignmentUpload(LoginRequiredMixin,CreateView):
     template_name = 'evaluator/assignment_upload.html'
-    queryset = Submission.objects.all()
-    # form_class = ClassForm
-    # success_url = reverse_lazy('evaluator:class_detail')
+    queryset = Classroom.objects.all()
+    form_class = SubmissionForm
+    success_url = reverse_lazy('evaluator:class_detail')
 
+    def form_valid(self, form):
+        temp_profile = form.save(commit=False)
+        temp_profile.user = self.request.user
+        temp_profile.save()
+
+        return super().form_valid(form)
 class AssignmentNotice(LoginRequiredMixin, DetailView):
     template_name = 'evaluator/assignment_notification.html'
     queryset = Assignment.objects.all()

@@ -18,3 +18,11 @@ class ClassForm(ModelForm):
             'name',
             'status'
         ]
+class SubmissionForm(ModelForm):
+
+    class Meta:
+        model = Submission
+        fields = [
+            'description',
+            'file'
+        ]
