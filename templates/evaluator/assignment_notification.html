@@ -41,6 +41,7 @@
               <h4 class="card-header-title">{{ assignment.description }}</h4>
             </div>
 
+
             <div class="col-md-auto">
               <div class="d-flex justify-content-between align-items-center">
                 <!-- Datatable Info -->
@@ -62,7 +63,24 @@
             </div>
           </div>
           <!-- End Row -->
+
+
         </div>
+          <div class="col-sm-auto">
+            <form action='{% url "evaluator:download" document_id=assignment.pk %}'>
+
+
+            <span class="btn btn-default btn-lg">
+                <button class="btn btn-primary"type="submit">
+                    <i class="bi bi-download"></i> Download file
+                    </button>
+
+            </span>
+
+            </form>
+
+          </div>
+
         <!-- End Header -->
 
         <!-- Table -->

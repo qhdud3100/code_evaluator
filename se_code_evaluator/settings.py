@@ -63,7 +63,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'se_code_evaluator.urls'
 
 MEDIA_URL = ''
-MEDIA_ROOT = '/home/ubuntu/code_evaluator/media/'
+MEDIA_ROOT = '/home/ubuntu/code_evaluator/media/submmissions'
 
 TEMPLATES = [
     {

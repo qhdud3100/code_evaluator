@@ -11,4 +11,5 @@ urlpatterns = [
     path('result/<int:pk>/', EvaluationResult.as_view(), name='result'),
     path('assignment/<int:pk>/', AssignmentNotice.as_view(), name='assignment_notice'),
     path('assignment/<int:assignment_pk>/submit/', SubmissionCreate.as_view(), name='submission_create'),
+    path('document/<int:document_id>/', FileDownloadView.as_view(), name="download"),
 ]

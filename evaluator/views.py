@@ -1,4 +1,8 @@
 from pprint import pprint
+from django.http import FileResponse
+from django.core.files.storage import FileSystemStorage
+from django.views import View
+from django.views.generic.detail import SingleObjectMixin
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -9,6 +13,8 @@ from django.urls import reverse_lazy, reverse
 
 from evaluator.forms import ClassForm, SubmissionForm
 from evaluator.models import Classroom, Assignment, Submission
+
+
 
 
 class ClassList(LoginRequiredMixin, ListView):
@@ -28,34 +34,9 @@ class ClassDetail(LoginRequiredMixin, DetailView):
             classroom=self.object,
         ).order_by('-created')
 
-        # tmp = Assignment.objects.filter(
-        #     classroom=self.object,
-        # ).order_by('-created')
-
         context['submissions'] = Submission.objects.filter(
             user=self.request.user,
         )
-
-
-
-        # print("here")
-        # print(tmp)
-        # print(tmp[0])
-        # print(self.request.user)
-        # print("here2")
-        #
-        # set1 = Submission.objects.first()
-        #
-        # for i in tmp:
-        #     tmp2 = Submission.objects.filter(
-        #         assignment=i,
-        #         user=self.request.user,
-        #     )
-        #     set1 = set1 | tmp2
-        # context['submissions'] = set1
-        # print(tmp2)
-        # print(context['submissions'])
-        # print("hihihihihiihhi")
 
         return context
 
@@ -105,3 +86,14 @@ class EvaluationResult(LoginRequiredMixin, DetailView):
     queryset = Submission.objects.all()
 
 
+class FileDownloadView(SingleObjectMixin, View):
+    queryset = Assignment.objects.all()
+
+    def get(self, request, document_id):
+        object = Assignment.objects.get(pk=document_id)
+        file_path = object.attachment.path
+        fs = FileSystemStorage(file_path)
+        response = FileResponse(fs.open(file_path, 'rb'))
+        response['Content-Disposition'] = f'attachment; filename={object.attachment.name}'
+
+        return response
