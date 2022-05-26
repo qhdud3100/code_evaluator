@@ -9,6 +9,6 @@ urlpatterns = [
     path('create/', ClassCreate.as_view(), name='class_create'),
     path('students/', StudentList.as_view(), ),
     path('result/<int:pk>/', EvaluationResult.as_view(), name='result'),
-    path('assignment/<int:pk>/', AssignmentNotice.as_view(), name='assignment'),
-    path('upload/', AssignmentUpload.as_view(), name='upload'),
+    path('assignment/<int:pk>/', AssignmentNotice.as_view(), name='assignment_notice'),
+    path('assignment/<int:assignment_pk>/submit/', SubmissionCreate.as_view(), name='submission_create'),
 ]

@@ -50,11 +50,11 @@ class Submission(models.Model):
                              on_delete=models.CASCADE, verbose_name='User')
     assignment = models.ForeignKey('Assignment', related_name='submissions',
                                    on_delete=models.PROTECT, verbose_name='Assignment')
-    is_distinct = models.BooleanField('')
-    score = models.DecimalField('Score', decimal_places=2, max_digits=500)
-    file = models.FileField('')
-    description = models.TextField()
-    result = models.JSONField()
+    is_distinct = models.BooleanField('', default=False)  # TODO
+    score = models.DecimalField('Score', decimal_places=2, max_digits=500, null=True)
+    file = models.FileField('File', upload_to='submmissions')
+    description = models.TextField('Description')
+    result = models.JSONField('Result Data', default={})
     submitted = models.DateTimeField('Date Created', auto_now_add=True)
 
 

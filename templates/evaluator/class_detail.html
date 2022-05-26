@@ -47,7 +47,7 @@
                 {% for assignment in assignments %}
                   <tr>
                     <td>
-                      <a href="{% url 'evaluator:assignment' assignment.pk %}">
+                      <a href="{% url 'evaluator:assignment_notice' assignment.pk %}">
                           <span class="d-block h5 text-hover-primary mb-0">{{ assignment.name }}</span>
                       </a>
                     <td>
