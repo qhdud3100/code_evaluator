@@ -15,19 +15,14 @@
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb breadcrumb-no-gutter">
                 <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Classes</a></li>
-                <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Algorithm Analysis</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Homework 3</li>
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">{{object.assignment.classroom.name}}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ object.assignment.name }}</li>
               </ol>
             </nav>
 
-            <h1 class="page-header-title">Homework 3</h1>
+            <h1 class="page-header-title">{{ object.assignment.name }}</h1>
           </div>
 
-          <div class="col-sm-auto">
-            <a class="btn btn-primary" href="javascript:;" data-toggle="modal" data-target="#createAKIKeyModal">
-              <i class="tio-add mr-1"></i>Inquire
-            </a>
-          </div>
         </div>
         <!-- End Row -->
       </div>
@@ -166,8 +161,6 @@
               <th>Name</th>
               <th>Points</th>
               <th>Status</th>
-              <th>Comment</th>
-              <th>Description</th>
               <th></th>
             </tr>
             </thead>
@@ -177,34 +170,17 @@
               <td>Encapsulation</td>
               <td>10/10</td>
               <td><span class="legend-indicator bg-success"></span> Success</td>
-              <td>
-                <div class="input-group input-group-sm input-group-merge table-input-group">
-                  <input id="apiKeyCode1" type="text" class="form-control" readonly value="">
-                </div>
-              </td>
-              <td><a href="#">See more</a></td>
+
             </tr>
             <tr>
               <td>Inheritance</td>
               <td>12/15</td>
               <td><span class="legend-indicator bg-warning"></span> Incomplete</td>
-              <td>
-                <div class="input-group input-group-sm input-group-merge table-input-group">
-                  <input id="apiKeyCode1" type="text" class="form-control" readonly value="Incomplete Implementation">
-                </div>
-              </td>
-              <td><a href="#">See more</a></td>
             </tr>
             <tr>
               <td>Polymorphism</td>
               <td>0/5</td>
               <td><span class="legend-indicator bg-danger"></span> Missing</td>
-              <td>
-                <div class="input-group input-group-sm input-group-merge table-input-group">
-                  <input id="apiKeyCode1" type="text" class="form-control" readonly value="Polymorphism not found">
-                </div>
-              </td>
-              <td><a href="#">See more</a></td>
             </tr>
             </tbody>
           </table>

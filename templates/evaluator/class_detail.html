@@ -47,8 +47,6 @@
 
                 {% for assignment in assignments %}
                     {% for submission in submissions %}
-                        submission_ass:{{submission.assignment.pk  }}
-                        assignment_ : {{ assignment.pk }}
                         {% if submission.assignment.pk == assignment.pk %}
                   <tr>
                     <td>
