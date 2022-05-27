@@ -1,25 +1,13 @@
-from __future__ import print_function
-
 import filecmp
 import os
 from enum import Enum, auto
 from pathlib import Path
 import subprocess
-import sys
-
-# This is not required if you've installed pycparser into
-# your site-packages/ with setup.py
-
-sys.path.extend(['.', '..'])
-
-from pycparser import c_ast, parse_file
-
 
 EXECUTABLE_PATH_PREFIX = '/home/ubuntu/code_evaluator/executables/'
 SOURCE_PATH_PREFIX = '/home/ubuntu/code_evaluator/source_codes/'
 EXPECTED_OUTPUT_PATH_PREFIX = '/home/ubuntu/code_evaluator/expected_output/'
 INPUT_PATH_PREFIX = '/home/ubuntu/code_evaluator/input/'
-
 
 STATUS_CODES = {
     200: 'OK',
@@ -31,41 +19,6 @@ STATUS_CODES = {
     404: 'FILE NOT FOUND',
     408: 'TIME LIMIT EXCEEDED'
 }
-
-def code_evaluator(prof_code, student_code, input, time_limit):
-
-    # run professor code
-    prof_prog = Program(prof_code, input, 'professor_output', time_limit)
-    prof_prog.preprocess_path()
-
-    prof_prog.compile()
-    prof_prog.run()
-
-
-    # run student code
-    new_prog = Program(student_code, input, 'professor_output', time_limit)
-    new_prog.preprocess_path()
-
-    compile_code = new_prog.compile()
-    if compile_code[0] != 200:
-        print("compile error of professor code: ", compile_code)
-        return compile_code
-
-    excute_code = new_prog.run()
-    if excute_code[0] != 200:
-        print("runtime error of professor code: ", excute_code)
-        return excute_code
-
-    # compare
-    compare_code = match(prof_prog.expected_output_path, new_prog.expected_output_path)
-    print(compare_code)
-
-    print(new_prog.source_path)
-
-
-    # show_func_defs(new_prog.source_path)
-
-
 
 class StrEnum(str, Enum):
     def _generate_next_value_(name, start, count, last_values):
@@ -189,7 +142,5 @@ def match(expected_output_file, actual_outputFile):
 
 
 # main
-code_evaluator("instructor.cpp", "student.cpp", "test_input",3)
-
-
-
+if __name__ == "__main__":
+    print("TODO")
