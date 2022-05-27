@@ -11,7 +11,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView
 from django.urls import reverse_lazy, reverse
 
-from evaluator.forms import ClassForm, SubmissionForm, EditForm
+from evaluator.forms import ClassForm, SubmissionForm, EditForm, AssignmentForm
 from evaluator.models import Classroom, Assignment, Submission
 
 
@@ -48,6 +48,30 @@ class ClassCreate(LoginRequiredMixin, CreateView):
     form_class = ClassForm
     success_url = reverse_lazy('evaluator:class_list')
 
+class AssignmentCreate(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    template_name = 'evaluator/assignment_create.html'
+    form_class = AssignmentForm
+    success_url = reverse_lazy('evaluator:class_list')
+    success_message = 'Submission successfully uploaded.'
+
+    def get_form_kwargs(self):
+
+        kwargs = super().get_form_kwargs()
+
+
+        return kwargs
+
+    def get_success_url(self):
+        return reverse_lazy('evaluator:class_detail', kwargs={'pk': self.kwargs['pk']})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['classroom'] = self.get_classroom()
+        return context
+
+    def get_classroom(self):
+        return Classroom.objects.get(pk=self.kwargs['pk'])
+
 
 class StudentList(LoginRequiredMixin, TemplateView):
     template_name = 'evaluator/student_list.html'
@@ -81,13 +105,22 @@ class AssignmentNotice(LoginRequiredMixin, DetailView):
     template_name = 'evaluator/assignment_notification.html'
     queryset = Assignment.objects.all()
 
+
 class EvaluationResult(LoginRequiredMixin, DetailView):
     template_name = 'evaluator/evaluation_result.html'
     queryset = Submission.objects.all()
 
+
 class AssignmentStatistics(LoginRequiredMixin, DetailView):
     template_name = 'evaluator/assignment_statistics.html'
     queryset = Assignment.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['submissions'] = Submission.objects.filter(
+            assignment=self.object
+        )
+        return context
 
 
 class FileDownloadView(SingleObjectMixin, View):
@@ -115,6 +148,7 @@ class AssignmentEdit(LoginRequiredMixin, UpdateView):
 
     def get_object(self):
         edit = Assignment.objects.get(pk=self.kwargs['pk'])
+
         return edit
 
 

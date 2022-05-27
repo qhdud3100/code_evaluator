@@ -12,6 +12,7 @@ urlpatterns = [
     path('statistics/<int:pk>/', AssignmentStatistics.as_view(), name='statistics'),
     path('assignment/<int:pk>/', AssignmentNotice.as_view(), name='assignment_notice'),
     path('assignment/<int:assignment_pk>/submit/', SubmissionCreate.as_view(), name='submission_create'),
+    path('assignment/<int:pk>/create/', AssignmentCreate.as_view(), name='assignment_create'),
     path('assignment/<int:pk>/edit/', AssignmentEdit.as_view(), name='assignment_edit'),
     path('document/<int:document_id>/', FileDownloadView.as_view(), name="download"),
 ]
