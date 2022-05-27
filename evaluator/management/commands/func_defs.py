@@ -16,7 +16,7 @@ import copy
 import yaml
 from collections import OrderedDict
 from pycparser import c_ast, parse_file
-from django.core.management import BaseCommand
+# from django.core.management import BaseCommand
 
 # This is not required if you've installed pycparser into
 # your site-packages/ with setup.py
@@ -27,37 +27,51 @@ SOURCE_PATH_PREFIX = '/home/ubuntu/code_evaluator/source_codes/'
 EXPECTED_OUTPUT_PATH_PREFIX = '/home/ubuntu/code_evaluator/expected_output/'
 INPUT_PATH_PREFIX = '/home/ubuntu/code_evaluator/input/'
 
-class Command(BaseCommand):
-    def handle(self, *args, **kwargs):
-        config_path = '/home/ubuntu/code_evaluator/config_chanhyo.yml'
-        with open(config_path) as fp:
-            yaml_loader, _ = ordered_yaml()
-            yml = yaml.load(fp, Loader=yaml_loader)
 
-        parse_check = yml['parseCheck']
-        if parse_check['FuncDef'] :
-            print('----------------func-defs----------------')
-            show_func_defs(SOURCE_PATH_PREFIX + 'macro_example.c', yml['FuncDefDetails']['names'])
+def requirement():
+    config_path = '/home/ubuntu/code_evaluator/config.yml'
+    with open(config_path) as fp:
+        yaml_loader, _ = ordered_yaml()
+        input_dict = yaml.load(fp, Loader=yaml_loader) # 이거 일단 이름 intput_dict, output_dict 이렇게 바꿔놓을겡
 
-        if parse_check['FuncCall'] :
-            print('----------------func-calls----------------')
-            print(yml['FuncCallDetails']['names'])
-            show_func_calls(SOURCE_PATH_PREFIX + 'macro_example.c', yml['FuncCallDetails']['names'][0])
+    parse_check = input_dict['parseCheck']
 
-        if parse_check['DeclDef']:
-            print('----------------decl-defs----------------')
-            show_decl_defs(SOURCE_PATH_PREFIX+'structure_example2.c', yml['DeclDefDetails']['names'])
+    result = {}
+    if parse_check['FuncDef'] :
+        print('----------------func-defs----------------')
+        result['FuncDef'] = show_func_defs(SOURCE_PATH_PREFIX + input_dict['assignmentName'], input_dict['FuncDefDetails']['names'])
+
+    if parse_check['FuncCall'] :
+        print('----------------func-calls----------------')
+        print(input_dict['FuncCallDetails']['names'])
+        result['FuncCall'] = show_func_calls(SOURCE_PATH_PREFIX +  input_dict['assignmentName'], input_dict['FuncCallDetails']['names'])
+
+    # if parse_check['DeclDef']:
+    #     print('----------------decl-defs----------------')
+    #     DeclDef_res = show_decl_defs(SOURCE_PATH_PREFIX + input_dict['assignmentName'])
+
+    # print(input_dict['assignmentName'])
+    # print(FuncDef_res, FuncCall_res)
+
+    print(result)
+
+    return result
+
 
 # A simple visitor for FuncDef nodes that prints the names and
 # locations of function definitions.
 class FuncDefVisitor(c_ast.NodeVisitor):
-    def __init__(self, funcname):
+    def __init__(self, funcname, result):
+        self.result = result
         self.funcname = funcname
 
     def visit_FuncDef(self, node):
         # print(node)
         if node.decl.name == self.funcname:
             print('%s at %s' % (node.decl.name, node.decl.coord))
+            self.result[self.funcname] = True
+
+
 
 def show_func_defs(filename, funcname):
     # Note that cpp is used. Provide a path to your own cpp or
@@ -65,17 +79,26 @@ def show_func_defs(filename, funcname):
     ast = parse_file(filename, use_cpp=True, cpp_path='/usr/bin/cpp',
                      cpp_args=r'-I/home/ubuntu/code_evaluator/pycparser/utils/fake_libc_include')
     # ast.show()
+    result = {}
     for each_func in funcname:
-        v = FuncDefVisitor(each_func)
+        result[each_func] = False
+        v = FuncDefVisitor(each_func, result)
         v.visit(ast)
 
+    return result
+
+
+
 class FuncCallVisitor(c_ast.NodeVisitor):
-    def __init__(self, funcname):
+    def __init__(self, funcname, result):
         self.funcname = funcname
+        self.result = result
 
     def visit_FuncCall(self, node):
         if node.name.name == self.funcname:
             print('%s called at %s' % (self.funcname, node.name.coord))
+            self.result[self.funcname] = True
+
         # Visit args in case they contain more func calls.
         if node.args:
             self.visit(node.args)
@@ -83,29 +106,39 @@ class FuncCallVisitor(c_ast.NodeVisitor):
 def show_func_calls(filename, funcname):
     ast =  parse_file(filename, use_cpp=True, cpp_path='/usr/bin/cpp',
                      cpp_args=r'-I/home/ubuntu/code_evaluator/pycparser/utils/fake_libc_include')
-    v = FuncCallVisitor(funcname)
-    v.visit(ast)
+    result = {}
+    for each_func in funcname:
+        v = FuncCallVisitor(each_func, result)
+        v.visit(ast)
+    return result
 
-def show_decl_defs(filename, declnames):
+
+class DeclVisitor(c_ast.NodeVisitor):
+    def visit_Decl(self, node):
+        print('%s at %s' % (node.decl.name, node.decl.coord))
+
+
+def show_decl_defs(filename):
+    print("call show_decl_defs")
     ast = parse_file(filename, use_cpp=True, cpp_path='/usr/bin/cpp',
                      cpp_args=r'-I/home/ubuntu/code_evaluator/pycparser/utils/fake_libc_include')
-    flag = 0
-    for node in ast.ext:
-        if not isinstance(node, c_ast.Typedef) or (isinstance(node, c_ast.Typedef) and node.name == 'memory_order'):
-            flag = 1
-            continue
-        if flag == 0:
-            continue
+    # ast.show()
+    # print(type(ast), type(ast.ext[-2].type.type.decls[0]))
+    # print(ast.ext[-2].type.type.decls[0])
+    # print(ast.ext[-2])
+    # if (not isinstance(ast, c_ast.FileAST) or
+    #     not isinstance(ast.ext[-2].type.type.decls[0], c_ast.Decl)
+    #     ):
+    #     return "Not a valid declaration"
 
-        try:
-            expanded = expand_struct_typedef(node, ast,
-                                             expand_struct=True,
-                                             expand_typedef=True)
-        except Exception as e:
-            return "Not a valid declaration: " + str(e)
+    try:
+        expanded = expand_struct_typedef(ast.ext[-2], ast,
+                                         expand_struct=True,
+                                         expand_typedef=True)
+    except Exception as e:
+        return "Not a valid declaration: " + str(e)
 
-        if expanded.name in declnames :
-            print(_explain_decl_node(expanded))
+    print(_explain_decl_node(expanded))
 
 
 def _explain_decl_node(decl_node):
@@ -247,3 +280,9 @@ def ordered_yaml():
     Dumper.add_representer(OrderedDict, dict_representer)
     Loader.add_constructor(_mapping_tag, dict_constructor)
     return Loader, Dumper
+
+
+
+
+
+requirement()
