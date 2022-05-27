@@ -1,6 +1,7 @@
 import yaml
 
 from program import *
+from parser_driver import *
 from utils import ordered_yaml
 
 class Evaluator:
@@ -21,10 +22,10 @@ class Evaluator:
 
         # run professor code
         prof_prog = Program(prof_code,
-                                    input_case,
-                                    self.config_dict['expectedOutputPath'],
-                                    self.config_dict['timelimit']
-                                    )
+                            input_case,
+                            self.config_dict['expectedOutputPath'],
+                            self.config_dict['timelimit']
+                            )
 
         prof_prog.preprocess_path()
         prof_prog.compile()
@@ -32,9 +33,9 @@ class Evaluator:
 
         # run student code
         new_prog = Program(student_code,
-                                   input_case,
-                                   self.config_dict['expectedOutputPath'],
-                                   self.config_dict['timelimit'])
+                           input_case,
+                           self.config_dict['expectedOutputPath'],
+                           self.config_dict['timelimit'])
         new_prog.preprocess_path()
         self.result_dict['compile_code'] = new_prog.compile()
         if self.result_dict['compile_code'][0] != 200:
@@ -49,9 +50,13 @@ class Evaluator:
 
         if self.result_dict['compare_code'][0] == 200:
             if self.config_dict['parseCheck']['FuncDef']:
-                print("TODO")
+                self.result_dict['FuncDef'] = show_func_defs(student_code, self.config_dict['FuncDefDetails']['names'])
+            if self.config_dict['parseCheck']['FuncCall']:
+                self.result_dict['FuncCall'] = show_func_calls(student_code, self.config_dict['FuncCallDetails']['names'])
 
-
+            # TO DO
+            # if self.config_dict['parseCheck']['DeclDef']:
+            #     self.result_dict['DeclDef'] = show_func_calls(student_code, self.config_dict['DeclDefDetails']['names'])
 
 if __name__ == '__main__':
     evaluator = Evaluator("/home/ubuntu/code_evaluator/config.yml")

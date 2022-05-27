@@ -2,106 +2,114 @@
 {% load static %}
 {% block content %}
 
-  <main id="content" role="main" class="main">
-    <div class="content container-fluid">
+    <main id="content" role="main" class="main">
+        <div class="content container-fluid">
 
-     <!-- Header -->
-      <div class="page-header">
-        <div class="row align-items-end">
-          <div class="col-sm mb-2 mb-sm-0">
-            <nav aria-label="breadcrumb">
-              <ol class="breadcrumb breadcrumb-no-gutter">
-                <li class="breadcrumb-item"><a class="breadcrumb-link" href="{% url 'evaluator:class_list' %}">Classes</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Detail</li>
-              </ol>
-            </nav>
-            <h1 class="page-header-title">{{ object.name }}</h1>
-              {% if object.status == 'active'%}
-                    <p style="color:dodgerblue; font-size:15px">Active</p>
-              {% else %}
-                    <p class="card-text font-size-sm">Closed</p>
-              {% endif %}
-          </div>
-        </div>
-      </div>
-       <!-- Header -->
-
-      <!-- Card -->
-      <div class="card overflow-hidden">
-        <!-- Tab Content -->
-        <div class="tab-content" id="leaderboardTabContent">
-          <div class="tab-pane fade show active" id="all-time" role="tabpanel" aria-labelledby="all-time-tab">
-            <!-- Table -->
-            <div class="table-responsive">
-              <table
-                class="table table-borderless table-thead-bordered table-nowrap table-text-center table-align-middle card-table">
-                <thead class="thead-light">
-                <tr>
-                  <th scope="col">Title</th>
-                  <th scope="col">Duedate</th>
-                  <th scope="col">Activate</th>
-                  <th scope="col">Result</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% if request.user.last_name == '학부생' %}
-                {% for assignment in assignments %}
-                    {% for submission in submissions %}
-                        {% if submission.assignment.pk == assignment.pk %}
-                  <tr>
-                    <td>
-                      <a href="{% url 'evaluator:assignment_notice' assignment.pk %}">
-                          <span class="d-block h5 text-hover-primary mb-0">{{ assignment.name }}</span>
-                      </a>
-                    <td>
-                         <small class="d-block h5 text-hover-primary mb-0">{{ assignment.due }}</small>
-                        </td>
-                    <td>
-                    <small class="d-block h5 text-hover-primary mb-0">{{ assignment.status }}</small>
-                    </td>
-                      </a>
-                    </td>
-                        <td><a href="{% url 'evaluator:result' submission.pk %}">result</a></td>
-                    </tr>
+            <!-- Header -->
+            <div class="page-header">
+                <div class="row align-items-end">
+                    <div class="col-sm mb-2 mb-sm-0">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb breadcrumb-no-gutter">
+                                <li class="breadcrumb-item"><a class="breadcrumb-link"
+                                                               href="{% url 'evaluator:class_list' %}">Classes</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Detail</li>
+                            </ol>
+                        </nav>
+                        <h1 class="page-header-title">{{ object.name }}</h1>
+                        {% if object.status == 'active' %}
+                            <p style="color:dodgerblue; font-size:15px">Active</p>
+                        {% else %}
+                            <p class="card-text font-size-sm">Closed</p>
                         {% endif %}
-                   {% endfor %}
-                {% endfor %}
-                 {% endif %}
+                    </div>
+                </div>
 
-                {% if request.user.last_name == '교수님' %}
-
-                    {% for assignment in assignments %}
-                          <tr>
-                            <td>
-                              <a href="{% url 'evaluator:assignment_notice' assignment.pk %}">
-                                  <span class="d-block h5 text-hover-primary mb-0">{{ assignment.name }}</span>
-                              </a>
-                            <td>
-                                 <small class="d-block h5 text-hover-primary mb-0">{{ assignment.due }}</small>
-                                </td>
-                            <td>
-                            <small class="d-block h5 text-hover-primary mb-0">{{ assignment.status }}</small>
-                            </td>
-                              </a>
-                            </td>
-                                <td><a href="{% url 'evaluator:statistics' assignment.pk %}">result</a></td>
-                            </tr>
-                   {% endfor %}
-
-
-
-                {% endif %}
-                </tbody>
-              </table>
+                <ul class="nav nav-tabs page-header-tabs">
+                    <li class="nav-item">
+                        <div class="nav-link active">
+                            Assignments <span class="badge badge-soft-dark ml-1">{{ assignments.count }}</span>
+                        </div>
+                    </li>
+                </ul>
             </div>
-            <!-- End Table -->
-          </div>
+            <!-- Header -->
+
+            <!-- Card -->
+            <div class="card overflow-hidden">
+                <!-- Tab Content -->
+                <div class="tab-content" id="leaderboardTabContent">
+                    <div class="tab-pane fade show active" id="all-time" role="tabpanel" aria-labelledby="all-time-tab">
+                        <!-- Table -->
+                        <div class="table-responsive">
+                            <table
+                                    class="table table-borderless table-thead-bordered table-nowrap table-text-center table-align-middle card-table">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Duedate</th>
+                                    <th scope="col">Activate</th>
+                                    <th scope="col">Result</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if request.user.last_name == '학부생' %}
+                                    {% for assignment in assignments %}
+
+
+                                        <tr>
+                                            <td>
+                                                <a href="{% url 'evaluator:assignment_notice' assignment.pk %}">
+                                                    <span class="d-block h5 text-hover-primary mb-0">{{ assignment.name }}</span>
+                                                </a>
+                                            <td>
+                                                <small class="d-block h5 text-hover-primary mb-0">{{ assignment.due }}</small>
+                                            </td>
+                                            <td>
+                                                <small class="d-block h5 text-hover-primary mb-0">{{ assignment.status }}</small>
+                                            </td>
+                                            </a>
+                                            {% for submission in submissions %}
+                                                {% if submission.assignment.pk == assignment.pk %}
+                                                    </td>
+                                                    <td><a href="{% url 'evaluator:result' submission.pk %}">result</a>
+                                                    </td>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+
+                                {% if request.user.last_name == '교수님' %}
+                                    {% for assignment in assignments %}
+                                        <tr>
+                                            <td>
+                                                <a href="{% url 'evaluator:assignment_notice' assignment.pk %}">
+                                                    <span class="d-block h5 text-hover-primary mb-0">{{ assignment.name }}</span>
+                                                </a>
+                                            <td>
+                                                <small class="d-block h5 text-hover-primary mb-0">{{ assignment.due }}</small>
+                                            </td>
+                                            <td>
+                                                <small class="d-block h5 text-hover-primary mb-0">{{ assignment.status }}</small>
+                                            </td>
+                                            </a>
+                                            </td>
+                                            <td><a href="{% url 'evaluator:statistics' assignment.pk %}">result</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!— End Table —>
+                    </div>
+                </div>
+                <!— End Tab Content —>
+            </div>
+            <!— End Card —>
         </div>
-        <!-- End Tab Content -->
-      </div>
-      <!-- End Card -->
-    </div>
-  </main>
+    </main>
 
 
 {% endblock %}

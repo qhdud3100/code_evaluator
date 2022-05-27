@@ -14,13 +14,17 @@
           <div class="col-sm mb-2 mb-sm-0">
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb breadcrumb-no-gutter">
-                <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Classes</a></li>
-                <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">{{object.assignment.classroom.name}}</a></li>
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href={% url 'evaluator:class_list' %}>Classes</a></li>
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href={% url 'evaluator:class_detail' object.assignment.classroom.pk %}>{{object.assignment.classroom.name}}</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ object.assignment.name }}</li>
               </ol>
             </nav>
-
-            <h1 class="page-header-title">{{ object.assignment.name }}</h1>
+            <h1 class="page-header-title">{{ object.assignment.name }} </h1>
+              {% if object.score == None %}
+                  <p>{{ object.score }}/{{ object.assignment.max_score }}</p>
+              {% else %}
+                  <p style="color:dodgerblue; font-size:15px">{{ object.score }}/{{ object.assignment.max_score }}</p>
+              {% endif %}
           </div>
 
         </div>

@@ -2,105 +2,101 @@
 {% load static bootstrap4 %}
 {% block content %}
 
-  <main id="content" role="main" class="main">
-    <!-- Content -->
-    <div class="content container-fluid">
-      <!-- Page Header -->
-      <div class="page-header">
-        <div class="row align-items-end">
-          <div class="col-sm mb-2 mb-sm-0">
-            <nav aria-label="breadcrumb">
-              <ol class="breadcrumb breadcrumb-no-gutter">
-                <li class="breadcrumb-item">Classes</li>
-                <li class="breadcrumb-item active" aria-current="page">Overview</li>
-              </ol>
-            </nav>
+    <main id="content" role="main" class="main">
+        <!-- Content -->
+        <div class="content container-fluid">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="row align-items-end">
+                    <div class="col-sm mb-2 mb-sm-0">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb breadcrumb-no-gutter">
+                                <li class="breadcrumb-item">Classes</li>
+                                <li class="breadcrumb-item active" aria-current="page">Overview</li>
+                            </ol>
+                        </nav>
 
-            <h1 class="page-header-title">Overview</h1>
-          </div>
+                        <h1 class="page-header-title">Overview</h1>
+                    </div>
 
 
-            {% if request.user.last_name == '학부생' %}
-              <div class="col-sm-auto">
-                <a class="btn btn-outline-primary" href="{% url 'evaluator:class_create' %}">
-                  <i class="tio-add mr-1"></i> Join Classroom
-                </a>
-              </div>
-            {% endif %}
-            {% if request.user.last_name == '교수님' %}
-                <div class="col-sm-auto">
-                <a class="btn btn-outline-primary" href="{% url 'evaluator:class_create' %}">
-                  <i class="tio-add mr-1"></i> New Classroom
-                </a>
-              </div>
-            {% endif %}
-        </div>
-        <!-- End Row -->
+                    {% if request.user.last_name == '학부생' %}
+                        <div class="col-sm-auto">
+                            <a class="btn btn-outline-primary" href="{% url 'evaluator:class_create' %}">
+                                <i class="tio-add mr-1"></i> Join Classroom
+                            </a>
+                        </div>
+                    {% endif %}
+                    {% if request.user.last_name == '교수님' %}
+                        <div class="col-sm-auto">
+                            <a class="btn btn-outline-primary" href="{% url 'evaluator:class_create' %}">
+                                <i class="tio-add mr-1"></i> New Classroom
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+                <!-- End Row -->
 
-        <!-- Nav -->
-        <ul class="nav nav-tabs page-header-tabs">
-          <li class="nav-item">
-            <div class="nav-link active">
-              Classes <span class="badge badge-soft-dark ml-1">{{ object_list.count }}</span>
+                <!-- Nav -->
+                <ul class="nav nav-tabs page-header-tabs">
+                    <li class="nav-item">
+                        <div class="nav-link active">
+                            Classes <span class="badge badge-soft-dark ml-1">{{ object_list.count }}</span>
+                        </div>
+                    </li>
+                </ul>
+                <!-- End Nav -->
             </div>
-          </li>
-        </ul>
-        <!-- End Nav -->
-      </div>
-      <!-- End Page Header -->
+            <!-- End Page Header -->
 
-      <!-- Card -->
-      <div class="card">
-        <!-- Table -->
-        <div class="table-responsive datatable-custom">
-          <table
-            class="table table-lg table-borderless table-thead-bordered table-nowrap table-align-middle card-table">
-            <thead class="thead-light">
-            <tr>
-              <th class="table-column-pr-0">
-                Class Name
-              </th>
-              <th class="table-column-pl-0">Instructor</th>
-              <th>Created Date</th>
-              <th>Status</th>
-            </tr>
-            </thead>
+            <!-- Card -->
+            <div class="card">
+                <!-- Table -->
+                <div class="table-responsive datatable-custom">
+                    <table
+                            class="table table-lg table-borderless table-thead-bordered table-nowrap table-align-middle card-table">
+                        <thead class="thead-light">
+                        <tr>
+                            <th>Class Name</th>
+                            <th>Instructor</th>
+                            <th>Created Date</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
 
-            <tbody>
-            {% for object in object_list %}
-            <tr>
-              <td class="table-column-pl-0">
-                <a class="d-flex align-items-center" href="{% url 'evaluator:class_detail' object.pk %}">
-{#                  <img class="avatar" src="{% static 'svg/brands/guideline.svg' %}" alt="Image Description">#}
-                  <div class="ml-3">
-                    <span class="d-block h5 text-hover-primary mb-0">{{ object.name }}</span>
-                  </div>
-                </a>
-              </td>
-              <td>
-                <span class="d-block h5 text-hover-primary mb-0">{{ object.instructors.all.0.first_name }} {{ object.instructors.all.0.last_name }}</span>
-              </td>
-              <td>
-                <!-- Avatar Group -->
-                  <span class="d-block h5 text-hover-primary mb-0">{{ object.created }}</span>
-                <!-- End Avatar Group -->
-              </td>
-              <td>
-                <span class="d-block h5 text-hover-primary mb-0">{{ object.status }}</span>
-            </tr>
-            {% endfor %}
-            </tbody>
-          </table>
+
+                        <tbody>
+                        {% for object in object_list %}
+                            <tr>
+                                <td>
+                                    <a class="d-flex align-items-center"
+                                       href="{% url 'evaluator:class_detail' object.pk %}">
+                                        <span class="d-block h5 text-hover-primary mb-0">{{ object.name }}</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <span class="d-block h5 text-hover-primary mb-0">{{ object.instructors.all.0.first_name }} {{ object.instructors.all.0.last_name }}</span>
+                                </td>
+                                <td>
+                                    <span class="d-block h5 text-hover-primary mb-0">{{ object.created }}</span>
+                                </td>
+                                <td>
+                                    <span class="d-block h5 text-hover-primary mb-0">{{ object.status }}</span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card-footer">
+                    {% bootstrap_pagination page_obj justify_content='center' %}
+                </div>
+            </div>
+            <!-- End Card -->
         </div>
-
-        <div class="card-footer">
-            {% bootstrap_pagination page_obj justify_content='center'%}
-        </div>
-      </div>
-      <!-- End Card -->
-    </div>
-    <!-- End Content -->
-  </main>
+        <!-- End Content -->
+    </main>
 
 {% endblock %}
 

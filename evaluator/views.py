@@ -85,6 +85,7 @@ class EvaluationResult(LoginRequiredMixin, DetailView):
     template_name = 'evaluator/evaluation_result.html'
     queryset = Submission.objects.all()
 
+
 class AssignmentStatistics(LoginRequiredMixin, DetailView):
     template_name = 'evaluator/assignment_statistics.html'
     queryset = Assignment.objects.all()
