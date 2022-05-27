@@ -44,7 +44,7 @@
                 </tr>
                 </thead>
                 <tbody>
-
+                {% if request.user.last_name == '학부생' %}
                 {% for assignment in assignments %}
                     {% for submission in submissions %}
                         {% if submission.assignment.pk == assignment.pk %}
@@ -66,6 +66,31 @@
                         {% endif %}
                    {% endfor %}
                 {% endfor %}
+                 {% endif %}
+
+                {% if request.user.last_name == '교수님' %}
+
+                    {% for assignment in assignments %}
+                          <tr>
+                            <td>
+                              <a href="{% url 'evaluator:assignment_notice' assignment.pk %}">
+                                  <span class="d-block h5 text-hover-primary mb-0">{{ assignment.name }}</span>
+                              </a>
+                            <td>
+                                 <small class="d-block h5 text-hover-primary mb-0">{{ assignment.due }}</small>
+                                </td>
+                            <td>
+                            <small class="d-block h5 text-hover-primary mb-0">{{ assignment.status }}</small>
+                            </td>
+                              </a>
+                            </td>
+                                <td><a href="{% url 'evaluator:result' assignment.pk %}">result</a></td>
+                            </tr>
+                   {% endfor %}
+
+
+
+                {% endif %}
                 </tbody>
               </table>
             </div>

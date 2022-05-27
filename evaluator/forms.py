@@ -54,3 +54,19 @@ class SubmissionForm(ModelForm):
     #     cleaned_data['assignment_id'] = self._assignment.id
     #     cleaned_data['user'] = self._user
     #     return cleaned_data
+class EditForm(ModelForm):
+    # assignment = forms.ModelChoiceField(queryset=Assignment.objects.none())
+    # user = forms.ModelChoiceField(queryset=User.objects.none())
+
+    class Meta:
+        model = Assignment
+        fields = [
+            'name',
+            'test_case',
+            'attachment',
+            'description',
+            'max_score',
+            'due',
+        ]
+
+

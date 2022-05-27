@@ -8,10 +8,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, TemplateView, CreateView
+from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView
 from django.urls import reverse_lazy, reverse
 
-from evaluator.forms import ClassForm, SubmissionForm
+from evaluator.forms import ClassForm, SubmissionForm, EditForm
 from evaluator.models import Classroom, Assignment, Submission
 
 
@@ -97,3 +97,20 @@ class FileDownloadView(SingleObjectMixin, View):
         response['Content-Disposition'] = f'attachment; filename={object.attachment.name}'
 
         return response
+
+class AssignmentEdit(LoginRequiredMixin, UpdateView):
+    model = Assignment.objects.all()
+    template_name = 'evaluator/assignment_edit.html'
+    form_class = EditForm
+    success_url = reverse_lazy('evaluator:class_detail')
+    success_message = 'Submission successfully uploaded.'
+    context_object_name = 'edit'
+
+    def get_success_url(self):
+        return reverse_lazy('evaluator:assignment_notice', kwargs={'pk': self.kwargs['pk']})
+
+    def get_object(self):
+        edit = Assignment.objects.get(pk=self.kwargs['pk'])
+        return edit
+
+

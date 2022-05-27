@@ -21,13 +21,22 @@
             <p class="card-text font-size-sm">Max score :  {{ assignment.max_score }}</p>
 
           </div>
-
+        {% if request.user.last_name == '학부생' %}
           <div class="col-sm-auto">
             <a class="btn btn-primary" href="{% url 'evaluator:submission_create' object.pk %}">
               <i class="tio-add mr-1"></i>Submission
             </a>
           </div>
         </div>
+          {% endif %}
+          {% if request.user.last_name == '교수님' %}
+              <div class="col-sm-auto">
+            <a class="btn btn-primary" href="{% url 'evaluator:assignment_edit' assignment.pk %}">
+              <i class="tio-add mr-1"></i>Edit
+            </a>
+          </div>
+        </div>
+          {% endif %}
         <!-- End Row -->
       </div>
       <!-- End Page Header -->
