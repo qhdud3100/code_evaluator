@@ -1,13 +1,25 @@
+from __future__ import print_function
+
 import filecmp
 import os
 from enum import Enum, auto
 from pathlib import Path
 import subprocess
+import sys
+
+# This is not required if you've installed pycparser into
+# your site-packages/ with setup.py
+
+sys.path.extend(['.', '..'])
+
+from pycparser import c_ast, parse_file
+
 
 EXECUTABLE_PATH_PREFIX = '/home/ubuntu/code_evaluator/executables/'
 SOURCE_PATH_PREFIX = '/home/ubuntu/code_evaluator/source_codes/'
 EXPECTED_OUTPUT_PATH_PREFIX = '/home/ubuntu/code_evaluator/expected_output/'
 INPUT_PATH_PREFIX = '/home/ubuntu/code_evaluator/input/'
+
 
 STATUS_CODES = {
     200: 'OK',
@@ -47,6 +59,12 @@ def code_evaluator(prof_code, student_code, input, time_limit):
     # compare
     compare_code = match(prof_prog.expected_output_path, new_prog.expected_output_path)
     print(compare_code)
+
+    print(new_prog.source_path)
+
+
+    # show_func_defs(new_prog.source_path)
+
 
 
 class StrEnum(str, Enum):
@@ -172,3 +190,6 @@ def match(expected_output_file, actual_outputFile):
 
 # main
 code_evaluator("instructor.cpp", "student.cpp", "test_input",3)
+
+
+
