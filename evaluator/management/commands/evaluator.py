@@ -1,5 +1,3 @@
-import yaml
-
 from program import *
 from parser_driver import *
 from utils import ordered_yaml
@@ -48,16 +46,17 @@ class Evaluator:
         # compare
         self.result_dict['compare_code'] = match(prof_prog.expected_output_path, new_prog.expected_output_path)
 
-        if self.result_dict['compare_code'][0] == 200:
+        if self.result_dict['compare_code'][0] == 201:
             if self.config_dict['parseCheck']['FuncDef']:
-                self.result_dict['FuncDef'] = show_func_defs(student_code, self.config_dict['FuncDefDetails']['names'])
+                self.result_dict['FuncDef'] = show_func_defs(new_prog.source_path, self.config_dict['FuncDefDetails']['names'])
             if self.config_dict['parseCheck']['FuncCall']:
-                self.result_dict['FuncCall'] = show_func_calls(student_code, self.config_dict['FuncCallDetails']['names'])
+                self.result_dict['FuncCall'] = show_func_calls(new_prog.source_path, self.config_dict['FuncCallDetails']['names'])
 
             # TO DO
-            # if self.config_dict['parseCheck']['DeclDef']:
-            #     self.result_dict['DeclDef'] = show_func_calls(student_code, self.config_dict['DeclDefDetails']['names'])
+            if self.config_dict['parseCheck']['DeclDef']:
+                self.result_dict['DeclDef'] = show_decl_defs(new_prog.source_path, self.config_dict['DeclDefDetails']['names'])
 
 if __name__ == '__main__':
     evaluator = Evaluator("/home/ubuntu/code_evaluator/config.yml")
-    evaluator.evaluate_code("professor.cpp", "student.cpp", "input")
+    evaluator.evaluate_code("macro_example.c", "macro_example.c", "test_input")
+    print(evaluator.result_dict)

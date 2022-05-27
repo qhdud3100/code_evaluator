@@ -1,3 +1,4 @@
+import datetime
 from pprint import pprint
 
 from allauth.account.forms import LoginForm
@@ -47,13 +48,43 @@ class SubmissionForm(ModelForm):
         self.fields['assignment'].widget = forms.HiddenInput()
         self.fields['user'].initial = _user
         self.fields['user'].widget = forms.HiddenInput()
-
-
     # def clean(self):
     #     cleaned_data = super().clean()
     #     cleaned_data['assignment_id'] = self._assignment.id
     #     cleaned_data['user'] = self._user
     #     return cleaned_data
+class DatePickerInput(forms.DateInput):
+    input_type = 'date'
+
+class AssignmentForm(ModelForm):
+    # assignment = forms.ModelChoiceField(queryset=Assignment.objects.none())
+    # user = forms.ModelChoiceField(queryset=User.objects.none())
+    class Meta:
+        model = Assignment
+        fields = [
+            'name',
+            'classroom',
+            'attachment',
+            'test_case',
+            'max_score',
+            'description',
+            'due',
+            'status'
+        ]
+        widgets = {
+            'due' : DatePickerInput(),
+        }
+
+        def __init__(self, *args, **kwargs):
+            _classroom = kwargs.pop('classroom')
+            super().__init__(*args, **kwargs)
+
+            self.fields['classroom'].initial = _classroom
+            self.fields['classroom'].widget = forms.HiddenInput()
+
+
+
+
 class EditForm(ModelForm):
     # assignment = forms.ModelChoiceField(queryset=Assignment.objects.none())
     # user = forms.ModelChoiceField(queryset=User.objects.none())
@@ -66,7 +97,6 @@ class EditForm(ModelForm):
             'attachment',
             'description',
             'max_score',
-            'due',
         ]
 
 

@@ -73,22 +73,27 @@
             </thead>
 
             <tbody>
+            {% for submission in submissions %}
             <tr>
-              <td>Encapsulation</td>
-              <td>10/10</td>
-              <td><span class="legend-indicator bg-success"></span> Success</td>
+                {% if submission.user.last_name == '학부생' %}
+                  <td>{{ submission.user.first_name}}{{ submission.user.last_name}} </td>
+                    {% if submission.score == None %}
+                        <td>0 / {{ object.max_score}} </td>
+                     {% else %}
+                        <td>{{ submission.score}} / {{ object.max_score}} </td>
+                    {% endif %}
 
+                    {% if submission.score == None %}
+                         <td><span class="legend-indicator bg-danger"></span> no Result </td>
+                     {% else %}
+                        <td><span class="legend-indicator bg-success"></span> <a href="{% url 'evaluator:result' submission.pk %}">Result detail</a></td>
+                    {% endif %}
+
+                {% endif %}
             </tr>
-            <tr>
-              <td>Inheritance</td>
-              <td>12/15</td>
-              <td><span class="legend-indicator bg-warning"></span> Incomplete</td>
-            </tr>
-            <tr>
-              <td>Polymorphism</td>
-              <td>0/5</td>
-              <td><span class="legend-indicator bg-danger"></span> Missing</td>
-            </tr>
+{% endfor %}
+
+
             </tbody>
           </table>
         </div>

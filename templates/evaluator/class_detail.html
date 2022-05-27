@@ -23,6 +23,14 @@
                             <p class="card-text font-size-sm">Closed</p>
                         {% endif %}
                     </div>
+
+                    {% if request.user.last_name == '교수님' %}
+                        <div class="col-sm-auto">
+                            <a class="btn btn-primary" href="{% url 'evaluator:assignment_create' object.pk %}">
+                                <i class="tio-add mr-1"></i>Create Assignment
+                            </a>
+                        </div>
+                    {% endif %}
                 </div>
 
                 <ul class="nav nav-tabs page-header-tabs">
