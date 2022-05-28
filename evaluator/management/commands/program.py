@@ -48,6 +48,10 @@ class Program:
         self.file_name = ''
         self.timelimit = timelimit
         self.executable_path = EXECUTABLE_PATH_PREFIX + Path(self.source_path).stem
+        self.num_lines = 0
+
+    def get_line_num(self):
+        return self.num_lines
 
     def preprocess_path(self):
         '''
@@ -63,6 +67,8 @@ class Program:
             self.expected_output_path = EXPECTED_OUTPUT_PATH_PREFIX + self.expected_output_path
 
     def compile(self):
+        # count line numbers
+        self.num_lines = sum(1 for _ in open(self.source_path))
 
         # Remove previous executables
         if os.path.isfile(self.executable_path):

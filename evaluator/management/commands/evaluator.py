@@ -3,7 +3,6 @@ import yaml
 from evaluator.management.commands.parser_driver import show_func_defs, show_func_calls, show_decl_defs
 from evaluator.management.commands.program import Program, match
 from evaluator.management.commands.utils import ordered_yaml
-import json
 
 
 class Evaluator:
@@ -39,9 +38,9 @@ class Evaluator:
         self.result_dict['compile_code'] = new_prog.compile()
         if self.result_dict['compile_code'][0] != 200:
             return
-
         self.result_dict['execute_code'] = []
         self.result_dict['compare_code'] = []
+        self.result_dict['lines'] = new_prog.get_line_num()
 
         pass_all = 1
         for idx, input_case in enumerate(input_cases):
