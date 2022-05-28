@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'bootstrap4',
     'accounts',
     'core',
+    'ckeditor',
+    'ckeditor_uploader',
     'evaluator',
     'notification',
     'allauth',
@@ -63,7 +65,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'se_code_evaluator.urls'
 
 MEDIA_URL = ''
-MEDIA_ROOT = '/home/ubuntu/code_evaluator/media/submmissions'
+MEDIA_ROOT = '/home/ubuntu/code_evaluator/media/'
 
 TEMPLATES = [
     {
@@ -146,6 +148,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = ''
 LOGOUT_REDIRECT_URL = '/'
+
+# CKEditor
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full'
+    },
+}
 
 # SOCIALACCOUNT_AUTO_SIGN_UP = True
 LOGIN_URL = '/accounts/google/login/'

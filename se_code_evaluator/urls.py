@@ -23,6 +23,7 @@ urlpatterns = [
     path('prototype/', include('evaluator.urls')),
     path('oauth/', include('allauth.urls')),
     path('admin/', admin.site.urls),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
 ]
 
 from allauth.account.models import EmailAddress

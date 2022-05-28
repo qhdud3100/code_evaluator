@@ -1,4 +1,4 @@
-{% load static %}
+{% load static bootstrap4 %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,124 +40,123 @@
 </head>
 
 {% block content-outer %}
-<body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl footer-offset">
-{% include 'evaluator/nav.html' %}
-{% block content %}{% endblock %}
-<!-- JS Plugins Init. -->
-<script>
-    $(document).on('ready', function () {
-        // =======================================================
+  <body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl footer-offset">
+  {% include 'evaluator/nav.html' %}
+  {% bootstrap_messages %}
+  {% block content %}{% endblock %}
+  <script>
+      $(document).on('ready', function () {
+          // =======================================================
 
-        // BUILDER TOGGLE INVOKER
-        // =======================================================
-        $('.js-navbar-vertical-aside-toggle-invoker').click(function () {
-            $('.js-navbar-vertical-aside-toggle-invoker i').tooltip('hide');
-        });
-
-
-        // INITIALIZATION OF NAVBAR VERTICAL NAVIGATION
-        // =======================================================
-        var sidebar = $('.js-navbar-vertical-aside').hsSideNav();
+          // BUILDER TOGGLE INVOKER
+          // =======================================================
+          $('.js-navbar-vertical-aside-toggle-invoker').click(function () {
+              $('.js-navbar-vertical-aside-toggle-invoker i').tooltip('hide');
+          });
 
 
-        // INITIALIZATION OF TOOLTIP IN NAVBAR VERTICAL MENU
-        // =======================================================
-        $('.js-nav-tooltip-link').tooltip({boundary: 'window'})
-
-        $(".js-nav-tooltip-link").on("show.bs.tooltip", function (e) {
-            if (!$("body").hasClass("navbar-vertical-aside-mini-mode")) {
-                return false;
-            }
-        });
+          // INITIALIZATION OF NAVBAR VERTICAL NAVIGATION
+          // =======================================================
+          var sidebar = $('.js-navbar-vertical-aside').hsSideNav();
 
 
-        // INITIALIZATION OF UNFOLD
-        // =======================================================
-        $('.js-hs-unfold-invoker').each(function () {
-            var unfold = new HSUnfold($(this)).init();
-        });
+          // INITIALIZATION OF TOOLTIP IN NAVBAR VERTICAL MENU
+          // =======================================================
+          $('.js-nav-tooltip-link').tooltip({boundary: 'window'})
+
+          $(".js-nav-tooltip-link").on("show.bs.tooltip", function (e) {
+              if (!$("body").hasClass("navbar-vertical-aside-mini-mode")) {
+                  return false;
+              }
+          });
 
 
-        // INITIALIZATION OF FORM SEARCH
-        // =======================================================
-        $('.js-form-search').each(function () {
-            new HSFormSearch($(this)).init()
-        });
+          // INITIALIZATION OF UNFOLD
+          // =======================================================
+          $('.js-hs-unfold-invoker').each(function () {
+              var unfold = new HSUnfold($(this)).init();
+          });
 
 
-        // INITIALIZATION OF FILE ATTACH
-        // =======================================================
-        $('.js-file-attach').each(function () {
-            var customFile = new HSFileAttach($(this)).init();
-        });
+          // INITIALIZATION OF FORM SEARCH
+          // =======================================================
+          $('.js-form-search').each(function () {
+              new HSFormSearch($(this)).init()
+          });
 
 
-        // INITIALIZATION OF SELECT2
-        // =======================================================
-        $('.js-select2-custom').each(function () {
-            var select2 = $.HSCore.components.HSSelect2.init($(this));
-        });
+          // INITIALIZATION OF FILE ATTACH
+          // =======================================================
+          $('.js-file-attach').each(function () {
+              var customFile = new HSFileAttach($(this)).init();
+          });
 
 
-        // INITIALIZATION OF QUILLJS EDITOR
-        // =======================================================
-        var quill = $.HSCore.components.HSQuill.init('.js-quill');
+          // INITIALIZATION OF SELECT2
+          // =======================================================
+          $('.js-select2-custom').each(function () {
+              var select2 = $.HSCore.components.HSSelect2.init($(this));
+          });
 
 
-        // INITIALIZATION OF NAV SCROLLER
-        // =======================================================
-        $('.js-nav-scroller').each(function () {
-            new HsNavScroller($(this)).init()
-        });
+          // INITIALIZATION OF QUILLJS EDITOR
+          // =======================================================
+          var quill = $.HSCore.components.HSQuill.init('.js-quill');
 
 
-        // INITIALIZATION OF FORM VALIDATION
-        // =======================================================
-        $('.js-validate').each(function () {
-            $.HSCore.components.HSValidation.init($(this));
-        });
+          // INITIALIZATION OF NAV SCROLLER
+          // =======================================================
+          $('.js-nav-scroller').each(function () {
+              new HsNavScroller($(this)).init()
+          });
 
 
-        // INITIALIZATION OF DATERANGEPICKER
-        // =======================================================
-        $('.js-daterangepicker').daterangepicker();
+          // INITIALIZATION OF FORM VALIDATION
+          // =======================================================
+          $('.js-validate').each(function () {
+              $.HSCore.components.HSValidation.init($(this));
+          });
 
-        $('.js-daterangepicker-times').daterangepicker({
-            timePicker: true,
-            startDate: moment().startOf('hour'),
-            endDate: moment().startOf('hour').add(32, 'hour'),
-            locale: {
-                format: 'M/DD hh:mm A'
-            }
-        });
 
-        var start = moment();
-        var end = moment();
+          // INITIALIZATION OF DATERANGEPICKER
+          // =======================================================
+          $('.js-daterangepicker').daterangepicker();
 
-        function cb(start, end) {
-            $('#js-daterangepicker-predefined .js-daterangepicker-predefined-preview').html(start.format('MMM D') + ' - ' + end.format('MMM D, YYYY'));
-        }
+          $('.js-daterangepicker-times').daterangepicker({
+              timePicker: true,
+              startDate: moment().startOf('hour'),
+              endDate: moment().startOf('hour').add(32, 'hour'),
+              locale: {
+                  format: 'M/DD hh:mm A'
+              }
+          });
 
-        $('#js-daterangepicker-predefined').daterangepicker({
-            startDate: start,
-            endDate: end,
-            ranges: {
-                'Today': [moment(), moment()],
-                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                'This Month': [moment().startOf('month'), moment().endOf('month')],
-                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-            }
-        }, cb);
+          var start = moment();
+          var end = moment();
 
-        cb(start, end);
-    });
-</script>
+          function cb(start, end) {
+              $('#js-daterangepicker-predefined .js-daterangepicker-predefined-preview').html(start.format('MMM D') + ' - ' + end.format('MMM D, YYYY'));
+          }
 
-<script>
-    if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="{% static 'vendor/babel-polyfill/polyfill.min.js' %}"><\/script>');
-</script>
-</body>
+          $('#js-daterangepicker-predefined').daterangepicker({
+              startDate: start,
+              endDate: end,
+              ranges: {
+                  'Today': [moment(), moment()],
+                  'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                  'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                  'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                  'This Month': [moment().startOf('month'), moment().endOf('month')],
+                  'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+              }
+          }, cb);
+
+          cb(start, end);
+      });
+  </script>
+  <script>
+      if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="{% static 'vendor/babel-polyfill/polyfill.min.js' %}"><\/script>');
+  </script>
+  </body>
 {% endblock %}
 </html>

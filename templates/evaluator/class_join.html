@@ -10,17 +10,17 @@
             <ol class="breadcrumb breadcrumb-no-gutter">
               <li class="breadcrumb-item"><a class="breadcrumb-link" href="{% url 'evaluator:class_list' %}">Classes</a>
               </li>
-              <li class="breadcrumb-item active" aria-current="page">Create</li>
+              <li class="breadcrumb-item active" aria-current="page">Join</li>
             </ol>
           </nav>
-          <h1 class="page-header-title mb-5">Create Classroom</h1>
+          <h1 class="page-header-title mb-5">Join Classroom</h1>
         </div>
 
       </div>
       <form method="post" enctype="multipart/form-data" autocomplete="off" novalidate>
         {% bootstrap_form form %}
         {% csrf_token %}
-        <button type="submit" class="btn btn-block btn-outline-primary mt-5">Save</button>
+        <button type="submit" class="btn btn-block btn-outline-primary mt-5">Submit</button>
       </form>
     </div>
   </div>

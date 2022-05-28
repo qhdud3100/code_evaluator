@@ -56,3 +56,9 @@ class User(AbstractUser):
 
     def __str__(self):
         return f'{self.email}'
+
+    def is_student(self):
+        return self.groups.filter(name__exact='Student').exists()
+
+    def is_instructor(self):
+        return self.groups.filter(name__exact='Instructor').exists()

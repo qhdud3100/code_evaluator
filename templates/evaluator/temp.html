@@ -31,7 +31,7 @@
                 </a>
               </div>
             {% endif %}
-            {% if request.user.last_name == '교수님' %}
+            {% if request.user.is_instructor %}
                 <div class="col-sm-auto">
                 <a class="btn btn-outline-primary" href="{% url 'evaluator:class_create' %}">
                   <i class="tio-add mr-1"></i> New Classroom

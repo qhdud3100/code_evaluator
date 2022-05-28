@@ -8,16 +8,12 @@
         <div class="col-sm">
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-no-gutter">
-              <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Classes</a>
+              <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Profile</a>
               </li>
-              <li class="breadcrumb-item"><a class="breadcrumb-link"
-                                             href="javascript:;">{{ object.classroom.name }}</a>
-              </li>
-              <li class="breadcrumb-item active" aria-current="page">{{ object.name }}</li>
             </ol>
           </nav>
 
-          <h1 class="page-header-title">{{ object.name }}</h1>
+          <h1 class="page-header-title">Change Profile</h1>
         </div>
       </div>
     </div>
@@ -29,22 +25,22 @@
         <div class="card card-lg mb-3 mb-lg-5">
           <!-- Header -->
           <div class="card-header">
-            <h4 class="card-header-title">Edit Assignment</h4>
+            <h4 class="card-header-title">Edit Profile</h4>
           </div>
           <!-- End Header -->
 
           <!-- Body -->
           <div class="card-body">
             <form method="post" enctype="multipart/form-data" novalidate>
-              {{ form.media }}
-              {{ form.as_p }}
               {% csrf_token %}
               {% bootstrap_form form %}
               <button type="submit" class="btn btn-primary btn-block">Submit</button>
             </form>
-
+          </div>
+          <!-- End Card -->
+        </div>
       </div>
+      <!-- End Row -->
     </div>
-    <!-- End Row -->
   </div>
 {% endblock %}

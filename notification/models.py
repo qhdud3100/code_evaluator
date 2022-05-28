@@ -35,7 +35,7 @@ class Notification(models.Model):
         settings.AUTH_USER_MODEL,
         related_name='notifications',
         verbose_name='Users',
-        on_delete=models.PROTECT
+        on_delete=models.CASCADE
     )
     data = models.JSONField('Data')
     is_read = models.BooleanField('Read', default=False)
