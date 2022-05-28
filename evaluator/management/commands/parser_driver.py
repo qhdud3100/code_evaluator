@@ -38,26 +38,41 @@ class Command(BaseCommand):
 # A simple visitor for FuncDef nodes that prints the names and
 # locations of function definitions.
 class FuncDefVisitor(c_ast.NodeVisitor):
-    def __init__(self, funcname, result):
+    def __init__(self, func_name, func_type, func_params, result):
         self.result = result
-        self.funcname = funcname
+        self.func_name = func_name
+        self.func_type = func_type
+        self.func_params = func_params
+
+    def get_type(self, node):
+        typ = type(node)
+        if typ == c_ast.TypeDecl:
+            return node.type.names[0]
+        elif typ == c_ast.PtrDecl:
+            return self.get_type(node.type) + '*'
+        else:
+            print(type(node))
 
     def visit_FuncDef(self, node):
-        # print(node)
-        if node.decl.name == self.funcname:
-            # print('%s at %s' % (node.decl.name, node.decl.coord))
-            self.result[self.funcname] = True
+        if node.decl.name == self.func_name:
+            # print(node.decl.type.args)
+            param_list = [self.get_type(node.decl.type.args.params[i].type) for i in range(len(node.decl.type.args.params))]
+            if self.func_type == self.get_type(node.decl.type.type):
+                for param in self.func_params:
+                    if param not in param_list:
+                        return
+                self.result[self.func_name] = True
 
-def show_func_defs(filename, funcname):
+def show_func_defs(filename, functions):
     # Note that cpp is used. Provide a path to your own cpp or
     # make sure one exists in PATH.
     ast = parse_file(filename, use_cpp=True, cpp_path='/usr/bin/cpp',
                      cpp_args=r'-I/home/ubuntu/code_evaluator/pycparser/utils/fake_libc_include')
     # ast.show()
     result = {}
-    for each_func in funcname:
-        result[each_func] = False
-        v = FuncDefVisitor(each_func, result)
+    for func_tuple in functions:
+        result[func_tuple[0]] = False
+        v = FuncDefVisitor(func_tuple[0], func_tuple[1], func_tuple[2], result)
         v.visit(ast)
 
     return result
@@ -69,7 +84,6 @@ class FuncCallVisitor(c_ast.NodeVisitor):
 
     def visit_FuncCall(self, node):
         if node.name.name == self.funcname:
-            # print('%s called at %s' % (self.funcname, node.name.coord))
             self.result[self.funcname] = True
 
         # Visit args in case they contain more func calls.

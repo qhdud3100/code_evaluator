@@ -48,13 +48,15 @@ class Evaluator:
 
         if self.result_dict['compare_code'][0] == 201:
             if self.config_dict['parseCheck']['FuncDef']:
-                self.result_dict['FuncDef'] = show_func_defs(new_prog.source_path, self.config_dict['FuncDefDetails']['names'])
+                config = self.config_dict['FuncDefDetails']
+                functions = zip(config['names'], config['return_types'], config['param_types'])
+                self.result_dict['FuncDef'] = show_func_defs(new_prog.source_path, functions)
             if self.config_dict['parseCheck']['FuncCall']:
-                self.result_dict['FuncCall'] = show_func_calls(new_prog.source_path, self.config_dict['FuncCallDetails']['names'])
-
-            # TO DO
+                config = self.config_dict['FuncCallDetails']
+                self.result_dict['FuncCall'] = show_func_calls(new_prog.source_path, config['names'])
             if self.config_dict['parseCheck']['DeclDef']:
-                self.result_dict['DeclDef'] = show_decl_defs(new_prog.source_path, self.config_dict['DeclDefDetails']['names'])
+                config = self.config_dict['DeclDefDetails']
+                self.result_dict['DeclDef'] = show_decl_defs(new_prog.source_path, config['names'])
 
 if __name__ == '__main__':
     evaluator = Evaluator("/home/ubuntu/code_evaluator/config.yml")
