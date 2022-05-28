@@ -17,7 +17,8 @@ STATUS_CODES = {
     402: 'RUNTIME ERROR',
     403: 'INVALID FILE',
     404: 'FILE NOT FOUND',
-    408: 'TIME LIMIT EXCEEDED'
+    408: 'TIME LIMIT EXCEEDED',
+    500: 'NOT SUPPORT'
 }
 
 class StrEnum(str, Enum):
@@ -40,10 +41,9 @@ class ProgrammingLanguage(StrEnum):
 
 
 class Program:
-    def __init__(self, source_path, input_path, expected_output_path, timelimit):
+    def __init__(self, source_path, expected_output_path, timelimit):
         self.source_path = source_path
         self.executable_path = ''
-        self.input_path  = input_path
         self.expected_output_path = expected_output_path
         self.language    = ProgrammingLanguage.c
         self.file_name   = ''
@@ -52,24 +52,18 @@ class Program:
 
 
     def preprocess_path(self):
-
+        '''
+                if self.input_path != '/':
+                    self.input_path = INPUT_PATH_PREFIX + self.input_path
+                if not os.path.exists(self.input_path):
+                    print(self.input_path, "doesn't exist")
+                    return 403, STATUS_CODES[403]
+        '''
         if self.source_path[0] != '/':
             self.source_path = SOURCE_PATH_PREFIX + self.source_path
-        if self.input_path != '/':
-            self.input_path = INPUT_PATH_PREFIX + self.input_path
         if self.expected_output_path != '/':
             self.expected_output_path = EXPECTED_OUTPUT_PATH_PREFIX + self.expected_output_path
-
         self.executable_path = EXECUTABLE_PATH_PREFIX + Path(self.source_path).stem
-
-
-        if not os.path.exists(self.input_path):
-            print(self.input_path, "doesn't exist")
-            return 403, STATUS_CODES[403]
-
-        # if not os.path.exists(self.expected_output_path):
-        #     print(self.expected_output_path, "doesn't exist")
-        #     return 403
 
 
     def compile(self):
@@ -89,7 +83,8 @@ class Program:
             proc = subprocess.run(['gcc', self.source_path, '-o', self.executable_path], stderr=subprocess.PIPE)
         elif self.language == ProgrammingLanguage.cpp:
             proc = subprocess.run(['g++', self.source_path, '-o', self.executable_path], stderr=subprocess.PIPE)
-
+        else:
+            return 500, STATUS_CODES[500]
         # Check for errors
         if proc.returncode != 0:
             return 401, proc.stderr
@@ -98,14 +93,20 @@ class Program:
 
 
 
-    def run(self):
+    def run(self, input_path):
+        if input_path != '/':
+            input_path = INPUT_PATH_PREFIX + input_path
+        if not os.path.exists(input_path):
+            print(input_path, "doesn't exist")
+            return 403, STATUS_CODES[403]
+
         if not os.path.exists(self.executable_path):
             return 403, self.executable_path + " doesn't exist"
         try:
             with open(self.expected_output_path, 'w') as fout:
                 fin = None
-                if self.input_path and os.path.isfile(self.input_path):
-                    fin = open(self.input_path, 'r')
+                if input_path and os.path.isfile(input_path):
+                    fin = open(input_path, 'r')
                 proc = subprocess.run(
                     self.executable_path,
                     stdin=fin,
