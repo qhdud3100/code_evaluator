@@ -74,12 +74,6 @@
               {% if submission.user.last_name == '학부생' %}
                 <td>{{ submission.user.first_name }}{{ submission.user.last_name }} </td>
                 {% if submission.score == None %}
-                  <td>0 / {{ object.max_score }} </td>
-                {% else %}
-                  <td>{{ submission.score }} / {{ object.max_score }} </td>
-                {% endif %}
-
-                {% if submission.score == None %}
                   <td><span class="legend-indicator bg-danger"></span> no Result</td>
                 {% else %}
                   <td><span class="legend-indicator bg-success"></span> <a

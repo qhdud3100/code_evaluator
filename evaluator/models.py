@@ -113,7 +113,7 @@ class Assignment(models.Model):
                                    validators=[FileExtensionValidator(allowed_extensions=['c', 'cpp'])])
     attachment = models.FileField('Attachment', upload_to=FilenameChanger('assignments'), blank=True, null=True)
     description = RichTextUploadingField('Description')
-    max_score = models.DecimalField('Max Score', decimal_places=2, max_digits=500)
+    # max_score = models.DecimalField('Max Score', decimal_places=2, max_digits=500)
     classroom = models.ForeignKey('Classroom', related_name='assignments',
                                   on_delete=models.CASCADE, verbose_name='Classroom')
     due = models.DateTimeField('Due')
@@ -152,7 +152,7 @@ class Submission(models.Model):
     assignment = models.ForeignKey('Assignment', related_name='submissions',
                                    on_delete=models.CASCADE, verbose_name='Assignment')
     is_distinct = models.BooleanField('', default=False)  # TODO
-    score = models.DecimalField('Score', decimal_places=2, max_digits=500, null=True)
+    # score = models.DecimalField('Score', decimal_places=2, max_digits=500, null=True)
     file = models.FileField('File', upload_to=FilenameChanger('submissions'),
                             validators=[FileExtensionValidator(allowed_extensions=['c', 'cpp'])])
     description = RichTextUploadingField('Description')

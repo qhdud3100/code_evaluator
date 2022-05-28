@@ -69,7 +69,6 @@ class AssignmentForm(ModelForm):
             'answer_code',
             'attachment',
             'test_case',
-            'max_score',
             'description',
             'due',
             'status'
@@ -97,7 +96,6 @@ class EditForm(ModelForm):
             'test_case',
             'attachment',
             'description',
-            'max_score',
         ]
 
 

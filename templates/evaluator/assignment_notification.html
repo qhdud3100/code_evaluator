@@ -51,7 +51,6 @@
           <div class="row flex-grow-1">
             <div class="col-md mb-2 mb-md-0">
               <h4 class="card-header-title">Description: {{ assignment.description|safe }}</h4>
-              <p class="card-text font-size-sm">Max score : {{ assignment.max_score }}</p>
             </div>
           </div>
         </div>
@@ -68,11 +67,6 @@
                 <h4 class="card-header-title mb-5">{% if submission %}My Submission{% endif %}</h4>
                 {% if submission %}
                   <div class="d-flex justify-content-between">
-                    <p class="card-text font-size-sm">Score: {{ submission }}</p>
-                    {#                      <a class="btn btn-warning" type="submit"#}
-                    {#                         href="{% url 'evaluator:submission_update' assignment.pk submission %}">#}
-                    {#                        <i class="tio-edit"></i> Edit#}
-                    {#                      </a> &nbsp;&nbsp;#}
                     <a class="btn btn-primary" type="submit"
                        href="{% url "evaluator:download" document_id=assignment.pk %}">
                       <i class="bi bi-download"></i> Download
