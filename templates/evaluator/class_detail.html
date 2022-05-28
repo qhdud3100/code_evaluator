@@ -1,5 +1,5 @@
 {% extends 'evaluator/base.html' %}
-{% load static %}
+{% load static class_detail %}
 {% block content %}
 
     <main id="content" role="main" class="main">
@@ -62,9 +62,7 @@
                                 </thead>
                                 <tbody>
                                 {% if request.user.last_name == '학부생' %}
-                                    {% for assignment in assignments %}
-
-
+                                    {% for assignment in object.assignments.all %}
                                         <tr>
                                             <td>
                                                 <a href="{% url 'evaluator:assignment_notice' assignment.pk %}">
@@ -74,16 +72,13 @@
                                                 <small class="d-block h5 text-hover-primary mb-0">{{ assignment.due }}</small>
                                             </td>
                                             <td>
-                                                <small class="d-block h5 text-hover-primary mb-0">{{ assignment.status }}</small>
+                                                <small class="d-block h5 text-hover-primary mb-0">{{ assignment.get_status_display }}</small>
                                             </td>
                                             </a>
-                                            {% for submission in submissions %}
-                                                {% if submission.assignment.pk == assignment.pk %}
-                                                    </td>
-                                                    <td><a href="{% url 'evaluator:result' submission.pk %}">result</a>
-                                                    </td>
+                                            <td>
+                                                {% if assignment|get_my_submission:request.user %}
+                                                    <a href="{% url 'evaluator:result' assignment|get_my_submission:request.user %}">result</a>
                                                 {% endif %}
-                                            {% endfor %}
                                         </tr>
                                     {% endfor %}
                                 {% endif %}

@@ -38,6 +38,14 @@ class Assignment(models.Model):
 
     created = models.DateTimeField('Date Created', auto_now_add=True)
 
+    class Meta:
+        ordering = ['-created']
+
+    def get_my_submission(self, user):
+        return Submission.objects.filter(
+            assignment=self,
+            user=user
+        ).first()
 
 class Criterion(models.Model):
     assignment = models.ForeignKey('Assignment', related_name='criteria',

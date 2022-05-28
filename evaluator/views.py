@@ -15,8 +15,6 @@ from evaluator.forms import ClassForm, SubmissionForm, EditForm, AssignmentForm
 from evaluator.models import Classroom, Assignment, Submission
 
 
-
-
 class ClassList(LoginRequiredMixin, ListView):
     template_name = 'evaluator/class_list.html'
     queryset = Classroom.objects.all()
@@ -30,16 +28,14 @@ class ClassDetail(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(ClassDetail, self).get_context_data()
 
-        context['assignments'] = Assignment.objects.filter(
+        assignments = Assignment.objects.filter(
             classroom=self.object,
         ).order_by('-created')
 
-        context['submissions'] = Submission.objects.filter(
-            user=self.request.user,
-        )
+        for assignment in assignments:
+            print(assignment.get_my_submission(user=self.request.user))
 
         return context
-
 
 
 class ClassCreate(LoginRequiredMixin, CreateView):
@@ -48,6 +44,7 @@ class ClassCreate(LoginRequiredMixin, CreateView):
     form_class = ClassForm
     success_url = reverse_lazy('evaluator:class_list')
 
+
 class AssignmentCreate(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = 'evaluator/assignment_create.html'
     form_class = AssignmentForm
@@ -55,9 +52,7 @@ class AssignmentCreate(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_message = 'Submission successfully uploaded.'
 
     def get_form_kwargs(self):
-
         kwargs = super().get_form_kwargs()
-
 
         return kwargs
 
@@ -135,6 +130,7 @@ class FileDownloadView(SingleObjectMixin, View):
 
         return response
 
+
 class AssignmentEdit(LoginRequiredMixin, UpdateView):
     model = Assignment.objects.all()
     template_name = 'evaluator/assignment_edit.html'
@@ -146,9 +142,7 @@ class AssignmentEdit(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse_lazy('evaluator:assignment_notice', kwargs={'pk': self.kwargs['pk']})
 
-    def get_object(self):
+    def get_object(self, queryset=None):
         edit = Assignment.objects.get(pk=self.kwargs['pk'])
 
         return edit
-
-
