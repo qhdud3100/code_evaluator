@@ -60,13 +60,13 @@ class DatePickerInput(forms.DateInput):
 
 
 class AssignmentForm(ModelForm):
-    # assignment = forms.ModelChoiceField(queryset=Assignment.objects.none())
-    # user = forms.ModelChoiceField(queryset=User.objects.none())
+
     class Meta:
         model = Assignment
         fields = [
             'name',
             'classroom',
+            'answer_code',
             'attachment',
             'test_case',
             'max_score',

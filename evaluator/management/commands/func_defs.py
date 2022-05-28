@@ -25,7 +25,7 @@ sys.path.extend(['.', '..'])
 EXECUTABLE_PATH_PREFIX = '/home/ubuntu/code_evaluator/executables/'
 SOURCE_PATH_PREFIX = '/home/ubuntu/code_evaluator/source_codes/'
 EXPECTED_OUTPUT_PATH_PREFIX = '/home/ubuntu/code_evaluator/expected_output/'
-INPUT_PATH_PREFIX = '/home/ubuntu/code_evaluator/input/'
+# INPUT_PATH_PREFIX = '/home/ubuntu/code_evaluator/input/'
 
 
 def requirement():

@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'evaluator',
-    'notification',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -64,7 +63,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'se_code_evaluator.urls'
 
-MEDIA_URL = ''
+MEDIA_URL = 'media/'
 MEDIA_ROOT = '/home/ubuntu/code_evaluator/media/'
 
 TEMPLATES = [

@@ -51,12 +51,12 @@
           <thead class="thead-light">
           <tr>
             <th>Class Name</th>
+            <th>Assignment Active/All</th>
             <th>Instructor</th>
             <th>Created Date</th>
             <th>Status</th>
           </tr>
           </thead>
-
 
           <tbody>
           {% for object in object_list %}
@@ -68,6 +68,13 @@
                 </a>
               </td>
               <td>
+                {% if not object.assignments.all %}
+                  -
+                {% else %}
+                  {{ object.assignments.open.count }} / {{ object.assignments.all.count }}
+                {% endif %}
+              </td>
+              <td>
                 <span
                   class="d-block h5 text-hover-primary mb-0">{{ object.instructors.all.0.first_name }} {{ object.instructors.all.0.last_name }}</span>
               </td>
@@ -75,7 +82,8 @@
                 <span class="d-block h5 text-hover-primary mb-0">{{ object.created }}</span>
               </td>
               <td>
-                <span class="d-block h5 text-hover-primary mb-0">{{ object.get_status_display }}</span>
+                <span class="d-block h5 text-hover-primary mb-0"><span
+                  class="legend-indicator bg-{% if object.status == 'active' %}success{% elif object.status == 'stand_by' %}warning{% else %}secondary{% endif %}"></span>{{ object.get_status_display }}</span>
               </td>
             </tr>
           {% endfor %}

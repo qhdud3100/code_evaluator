@@ -1,7 +1,10 @@
-from program import *
-from parser_driver import *
-from utils import ordered_yaml
+import yaml
+
+from evaluator.management.commands.parser_driver import show_func_defs, show_func_calls, show_decl_defs
+from evaluator.management.commands.program import Program, match
+from evaluator.management.commands.utils import ordered_yaml
 import json
+
 
 class Evaluator:
 
@@ -24,14 +27,14 @@ class Evaluator:
                             self.config_dict['timelimit']
                             )
 
-        prof_prog.preprocess_path()
+        # prof_prog.preprocess_path()
         prof_prog.compile()
 
         # run student code
         new_prog = Program(student_code,
                            self.config_dict['expectedOutputPath'],
                            self.config_dict['timelimit'])
-        new_prog.preprocess_path()
+        # new_prog.preprocess_path()
 
         self.result_dict['compile_code'] = new_prog.compile()
         if self.result_dict['compile_code'][0] != 200:
@@ -55,7 +58,6 @@ class Evaluator:
             # compare
             # self.result_dict['compare_code'] = match(prof_prog.expected_output_path, new_prog.expected_output_path)
 
-
         # if self.result_dict['compare_code'][0] == 201:
         if pass_all:
             if self.config_dict['parseCheck']['FuncDef']:
@@ -71,8 +73,13 @@ class Evaluator:
                 config = self.config_dict['DeclDefDetails']
                 self.result_dict['DeclDef'] = show_decl_defs(new_prog.source_path, config['names'])
 
-if __name__ == '__main__':
-    evaluator = Evaluator("/home/ubuntu/code_evaluator/config.yml")
 
-    evaluator.evaluate_code("macro_example.c", "macro_example.c", ["test_input", "test_input1", "test_input2"])
-    json_val = json.dumps(evaluator.result_dict)
+def evaluate_submission(config_file_path, answer_file_path, input_file_path, test_case_path):
+    evaluator = Evaluator(config_file_path)
+
+    evaluator.evaluate_code(
+        answer_file_path,
+        input_file_path,
+        [test_case_path]
+    )
+    return evaluator.result_dict

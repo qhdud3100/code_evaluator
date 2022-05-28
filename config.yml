@@ -1,0 +1,23 @@
+assignmentName: 'Assigment 1'
+
+answerPath: '' # get uuid from model, will removed soon
+inputPath: '' # get uuid from model, will removed soon
+
+expectedOutputPath: 'output.tmp'
+timelimit: 5
+
+parseCheck:
+  FuncDef: true
+  FuncCall: true
+  DeclDef: true
+
+FuncDefDetails:
+  names: ['reverse_string', 'main', 'hello']
+  return_types: ['char*', 'int', 'void']
+  param_types: [['char*'], ['void'], ['void']]
+
+FuncCallDetails:
+  names: ['strlen']
+
+DeclDefDetails:
+  names: ['person', 'student']

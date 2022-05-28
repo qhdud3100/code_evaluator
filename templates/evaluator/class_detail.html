@@ -77,10 +77,10 @@
                   </a>
                   <td>
                     {% if request.user.is_instructor %}
-                      <a href="{% url 'evaluator:statistics' assignment.pk %}">result</a>
+                      <a href="{% url 'evaluator:statistics' assignment.pk %}">Result</a>
                     {% else %}
                       {% if assignment|get_my_submission:request.user %}
-                        <a href="{% url 'evaluator:result' assignment|get_my_submission:request.user %}">result</a>
+                        <a href="{% url 'evaluator:result' assignment|get_my_submission:request.user %}">Result</a>
                       {% endif %}
                     {% endif %}
                 </tr>

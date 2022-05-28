@@ -7,7 +7,7 @@ import subprocess
 EXECUTABLE_PATH_PREFIX = '/home/ubuntu/code_evaluator/executables/'
 SOURCE_PATH_PREFIX = '/home/ubuntu/code_evaluator/source_codes/'
 EXPECTED_OUTPUT_PATH_PREFIX = '/home/ubuntu/code_evaluator/expected_output/'
-INPUT_PATH_PREFIX = '/home/ubuntu/code_evaluator/input/'
+# INPUT_PATH_PREFIX = '/home/ubuntu/code_evaluator/input/'
 
 STATUS_CODES = {
     200: 'OK',
@@ -21,6 +21,7 @@ STATUS_CODES = {
     500: 'NOT SUPPORT'
 }
 
+
 class StrEnum(str, Enum):
     def _generate_next_value_(name, start, count, last_values):
         return name
@@ -32,12 +33,10 @@ class StrEnum(str, Enum):
         return self.name
 
 
-
 class ProgrammingLanguage(StrEnum):
     unknown = auto()
     cpp = auto()
     c = auto()
-
 
 
 class Program:
@@ -45,11 +44,10 @@ class Program:
         self.source_path = source_path
         self.executable_path = ''
         self.expected_output_path = expected_output_path
-        self.language    = ProgrammingLanguage.c
-        self.file_name   = ''
-        self.timelimit   = timelimit
-
-
+        self.language = ProgrammingLanguage.c
+        self.file_name = ''
+        self.timelimit = timelimit
+        self.executable_path = EXECUTABLE_PATH_PREFIX + Path(self.source_path).stem
 
     def preprocess_path(self):
         '''
@@ -63,8 +61,6 @@ class Program:
             self.source_path = SOURCE_PATH_PREFIX + self.source_path
         if self.expected_output_path != '/':
             self.expected_output_path = EXPECTED_OUTPUT_PATH_PREFIX + self.expected_output_path
-        self.executable_path = EXECUTABLE_PATH_PREFIX + Path(self.source_path).stem
-
 
     def compile(self):
 
@@ -72,12 +68,10 @@ class Program:
         if os.path.isfile(self.executable_path):
             os.remove(self.executable_path)
 
-
         if not os.path.exists(self.source_path):
             # print(self.source_path, "doesn't exist")
-            return 403,  STATUS_CODES[403]
+            return 403, STATUS_CODES[403]
         self.language = os.path.splitext(self.source_path)[-1][1:]
-
 
         if self.language == ProgrammingLanguage.c:
             proc = subprocess.run(['gcc', self.source_path, '-o', self.executable_path], stderr=subprocess.PIPE)
@@ -91,11 +85,7 @@ class Program:
         else:
             return 200, STATUS_CODES[200]
 
-
-
     def run(self, input_path):
-        if input_path != '/':
-            input_path = INPUT_PATH_PREFIX + input_path
         if not os.path.exists(input_path):
             print(input_path, "doesn't exist")
             return 403, STATUS_CODES[403]

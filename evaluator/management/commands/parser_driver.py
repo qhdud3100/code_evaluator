@@ -12,7 +12,9 @@ sys.path.extend(['.', '..'])
 EXECUTABLE_PATH_PREFIX = '/home/ubuntu/code_evaluator/executables/'
 SOURCE_PATH_PREFIX = '/home/ubuntu/code_evaluator/source_codes/'
 EXPECTED_OUTPUT_PATH_PREFIX = '/home/ubuntu/code_evaluator/expected_output/'
-INPUT_PATH_PREFIX = '/home/ubuntu/code_evaluator/input/'
+
+
+# INPUT_PATH_PREFIX = '/home/ubuntu/code_evaluator/input/'
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
@@ -22,18 +24,19 @@ class Command(BaseCommand):
             yml = yaml.load(fp, Loader=yaml_loader)
 
         parse_check = yml['parseCheck']
-        if parse_check['FuncDef'] :
+        if parse_check['FuncDef']:
             print('----------------func-defs----------------')
             show_func_defs(SOURCE_PATH_PREFIX + 'macro_example.c', yml['FuncDefDetails']['names'])
 
-        if parse_check['FuncCall'] :
+        if parse_check['FuncCall']:
             print('----------------func-calls----------------')
             print(yml['FuncCallDetails']['names'])
             show_func_calls(SOURCE_PATH_PREFIX + 'macro_example.c', yml['FuncCallDetails']['names'][0])
 
         if parse_check['DeclDef']:
             print('----------------decl-defs----------------')
-            show_decl_defs(SOURCE_PATH_PREFIX+'structure_example2.c', yml['DeclDefDetails']['names'])
+            show_decl_defs(SOURCE_PATH_PREFIX + 'structure_example2.c', yml['DeclDefDetails']['names'])
+
 
 # A simple visitor for FuncDef nodes that prints the names and
 # locations of function definitions.
@@ -56,12 +59,14 @@ class FuncDefVisitor(c_ast.NodeVisitor):
     def visit_FuncDef(self, node):
         if node.decl.name == self.func_name:
             # print(node.decl.type.args)
-            param_list = [self.get_type(node.decl.type.args.params[i].type) for i in range(len(node.decl.type.args.params))]
+            param_list = [self.get_type(node.decl.type.args.params[i].type) for i in
+                          range(len(node.decl.type.args.params))]
             if self.func_type == self.get_type(node.decl.type.type):
                 for param in self.func_params:
                     if param not in param_list:
                         return
                 self.result[self.func_name] = True
+
 
 def show_func_defs(filename, functions):
     # Note that cpp is used. Provide a path to your own cpp or
@@ -77,6 +82,7 @@ def show_func_defs(filename, functions):
 
     return result
 
+
 class FuncCallVisitor(c_ast.NodeVisitor):
     def __init__(self, funcname, result):
         self.funcname = funcname
@@ -90,14 +96,16 @@ class FuncCallVisitor(c_ast.NodeVisitor):
         if node.args:
             self.visit(node.args)
 
+
 def show_func_calls(filename, funcname):
-    ast =  parse_file(filename, use_cpp=True, cpp_path='/usr/bin/cpp',
+    ast = parse_file(filename, use_cpp=True, cpp_path='/usr/bin/cpp',
                      cpp_args=r'-I/home/ubuntu/code_evaluator/pycparser/utils/fake_libc_include')
     result = {}
     for each_func in funcname:
         v = FuncCallVisitor(each_func, result)
         v.visit(ast)
     return result
+
 
 def show_decl_defs(filename, declnames):
     ast = parse_file(filename, use_cpp=True, cpp_path='/usr/bin/cpp',
@@ -118,7 +126,7 @@ def show_decl_defs(filename, declnames):
         except Exception as e:
             return "Not a valid declaration: " + str(e)
 
-        if expanded.name in declnames :
+        if expanded.name in declnames:
             result[expanded.name] = True
             print(_explain_decl_node(expanded))
 
@@ -223,7 +231,6 @@ def _expand_in_place(decl, file_ast, expand_struct=False, expand_typedef=False):
             return typedef.type
         # print(typ)
 
-
     return decl
 
 
@@ -233,8 +240,8 @@ def _find_struct(name, file_ast):
 
     for node in file_ast.ext:
         if (type(node) == c_ast.Decl and
-           type(node.type) == c_ast.Struct and
-           node.type.name == name):
+                type(node.type) == c_ast.Struct and
+                node.type.name == name):
             return node.type
 
 

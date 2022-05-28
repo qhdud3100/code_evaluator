@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.core.validators import FileExtensionValidator
 
 from evaluator.utils import generate_random, FilenameChanger
 
@@ -34,10 +35,15 @@ class ClassroomQuerySet(models.QuerySet):
 
     def visible(self, user):
         if user.is_authenticated:
-            return self.filter(
-                Q(instructors=user) | Q(students=user),
-                status=Classroom.Status.ACTIVE,
-            ).distinct()
+            if user.is_student():
+                return self.filter(
+                    Q(instructors=user) | Q(students=user),
+                    status=Classroom.Status.ACTIVE,
+                ).distinct()
+            else:
+                return self.filter(
+                    Q(instructors=user) | Q(students=user),
+                ).distinct()
         return self.none()
 
 
@@ -70,7 +76,7 @@ class Classroom(models.Model):
     def set_code(self):
         while not self.invitation_code:
             invitation_code = generate_random(length=7)
-            if not Semester.objects.filter(invitation_code=invitation_code).exists():
+            if not Classroom.objects.filter(invitation_code=invitation_code).exists():
                 self.invitation_code = invitation_code
 
     def save(self, *args, **kwargs):
@@ -102,13 +108,22 @@ class Assignment(models.Model):
 
     name = models.CharField('Name', max_length=200)
     status = models.CharField('status', choices=Status.choices, max_length=10)
-    test_case = models.FileField('Test Case')
-    attachment = models.FileField('Attachment', upload_to=FilenameChanger('assignments'))
+    test_case = models.FileField('Test Case', upload_to=FilenameChanger('test_cases'), blank=True, null=True)
+    answer_code = models.FileField('Answer Code', upload_to=FilenameChanger('answer_codes'),
+                                   validators=[FileExtensionValidator(allowed_extensions=['c', 'cpp'])])
+    attachment = models.FileField('Attachment', upload_to=FilenameChanger('assignments'), blank=True, null=True)
     description = RichTextUploadingField('Description')
     max_score = models.DecimalField('Max Score', decimal_places=2, max_digits=500)
     classroom = models.ForeignKey('Classroom', related_name='assignments',
                                   on_delete=models.PROTECT, verbose_name='Classroom')
     due = models.DateTimeField('Due')
+    criteria = models.ForeignKey(
+        'Criterion',
+        related_name='assignments',
+        on_delete=models.PROTECT,
+        verbose_name='Criteria',
+        null=True
+    )
 
     created = models.DateTimeField('Date Created', auto_now_add=True)
     objects = AssignmentQuerySet.as_manager()
@@ -127,9 +142,8 @@ class Assignment(models.Model):
 
 
 class Criterion(models.Model):
-    assignment = models.ForeignKey('Assignment', related_name='criteria',
-                                   on_delete=models.PROTECT, verbose_name='Assignment')
-    data = models.JSONField('Data')
+    name = models.CharField('Name', max_length=100)
+    config_file = models.FileField('Configuration File', upload_to=FilenameChanger('configurations'), null=True)
 
 
 class Submission(models.Model):
@@ -139,7 +153,8 @@ class Submission(models.Model):
                                    on_delete=models.PROTECT, verbose_name='Assignment')
     is_distinct = models.BooleanField('', default=False)  # TODO
     score = models.DecimalField('Score', decimal_places=2, max_digits=500, null=True)
-    file = models.FileField('File', upload_to=FilenameChanger('submissions'))
+    file = models.FileField('File', upload_to=FilenameChanger('submissions'),
+                            validators=[FileExtensionValidator(allowed_extensions=['c', 'cpp'])])
     description = RichTextUploadingField('Description')
     result = models.JSONField('Result Data', default={})
     submitted = models.DateTimeField('Date Created', auto_now_add=True)

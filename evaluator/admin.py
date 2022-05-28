@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from evaluator.models import Classroom, Assignment, Submission, Semester
+from evaluator.models import Classroom, Assignment, Submission, Semester, Criterion
 
 
 @admin.register(Classroom)
@@ -23,3 +23,8 @@ class Submission(admin.ModelAdmin):
 class SemesterAdmin(admin.ModelAdmin):
     list_display = ['name', 'is_current']
     list_editable = ['is_current']
+
+
+@admin.register(Criterion)
+class CriterionAdmin(admin.ModelAdmin):
+    list_display = ['id']

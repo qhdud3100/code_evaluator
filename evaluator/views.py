@@ -1,3 +1,6 @@
+import json
+from pprint import pprint
+
 from django.contrib import messages
 from django.http import FileResponse
 from django.core.files.storage import FileSystemStorage
@@ -11,6 +14,7 @@ from django.views.generic import ListView, DetailView, TemplateView, CreateView,
 from django.urls import reverse_lazy, reverse
 
 from evaluator.forms import ClassForm, SubmissionForm, EditForm, AssignmentForm, ClassJoinForm
+from evaluator.management.commands.evaluator import evaluate_submission
 from evaluator.models import Classroom, Assignment, Submission
 
 
@@ -45,6 +49,14 @@ class ClassCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = ClassForm
     success_url = reverse_lazy('evaluator:class_list')
     permission_required = 'classroom.create_classroom'
+
+    def form_valid(self, form):
+        form_valid = super().form_valid(form)
+
+        if self.object.instructors != self.request.user:
+            self.object.instructors.add(self.request.user)
+
+        return form_valid
 
 
 class ClassJoin(LoginRequiredMixin, SuccessMessageMixin, FormView):
@@ -87,37 +99,37 @@ class StudentList(LoginRequiredMixin, TemplateView):
     template_name = 'evaluator/student_list.html'
 
 
-class SubmissionUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
-    template_name = 'evaluator/submission_create.html'
-    form_class = SubmissionForm
-    model = Submission
-    success_url = reverse_lazy('evaluator:class_detail')
-    success_message = 'Submission successfully updated.'
-
-    def get_queryset(self):
-        if self.object.assignment.classroom.instructors == self.request.user:
-            return Submission.objects.filter(id=self.object.id)
-        else:
-            return Submission.objects.open(
-                user=self.request.user
-            )
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['assignment'] = self.get_assignment()
-        kwargs['user'] = self.request.user
-        return kwargs
-
-    def get_success_url(self):
-        return reverse_lazy('evaluator:assignment_notice', kwargs={'pk': self.kwargs['assignment_pk']})
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['assignment'] = self.get_assignment()
-        return context
-
-    def get_assignment(self):
-        return Assignment.objects.get(id=self.kwargs['assignment_pk'])
+# class SubmissionUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+#     template_name = 'evaluator/submission_create.html'
+#     form_class = SubmissionForm
+#     model = Submission
+#     success_url = reverse_lazy('evaluator:class_detail')
+#     success_message = 'Submission successfully updated.'
+#
+#     def get_queryset(self):
+#         if self.object.assignment.classroom.instructors == self.request.user:
+#             return Submission.objects.filter(id=self.object.id)
+#         else:
+#             return Submission.objects.open(
+#                 user=self.request.user
+#             )
+#
+#     def get_form_kwargs(self):
+#         kwargs = super().get_form_kwargs()
+#         kwargs['assignment'] = self.get_assignment()
+#         kwargs['user'] = self.request.user
+#         return kwargs
+#
+#     def get_success_url(self):
+#         return reverse_lazy('evaluator:assignment_notice', kwargs={'pk': self.kwargs['assignment_pk']})
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['assignment'] = self.get_assignment()
+#         return context
+#
+#     def get_assignment(self):
+#         return Assignment.objects.get(id=self.kwargs['assignment_pk'])
 
 
 class SubmissionCreate(LoginRequiredMixin, SuccessMessageMixin, CreateView):
@@ -136,6 +148,24 @@ class SubmissionCreate(LoginRequiredMixin, SuccessMessageMixin, CreateView):
             return redirect('evaluator:assignment_notice', pk=self.kwargs['assignment_pk'])
 
         return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        super().form_valid(form=form)
+
+        assignment_path = self.object.assignment.answer_code.path
+        input_file_path = self.object.file.path
+        config_file_path = self.object.assignment.criteria.config_file.path
+        test_case_path = self.object.assignment.test_case.path
+        result = evaluate_submission(
+            config_file_path,
+            assignment_path,
+            input_file_path,
+            test_case_path
+        )
+        self.object.result = result
+        self.object.save()
+
+        return super().form_valid(form=form)
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -164,6 +194,38 @@ class EvaluationResult(LoginRequiredMixin, DetailView):
     template_name = 'evaluator/evaluation_result.html'
     queryset = Submission.objects.all()
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        result = self.object.result
+        key_excluded = [
+            'config_path',
+            'compile_code',
+            'execute_code',
+            'compare_code',
+            'lines'
+        ]
+        count_passed = 0
+        count_failed = 0
+        result_dictionary = {}
+        for key, value in result.items():
+            if key in key_excluded:
+                continue
+
+            for k, v in value.items():
+                result_dictionary[k] = 'Pass' if v else 'Fail'
+                if v:
+                    count_passed += 1
+                else:
+                    count_failed += 1
+
+        total_count = count_passed + count_failed
+
+        context['total_count'] = total_count
+        context['count_passed'] = count_passed
+        context['count_failed'] = count_failed
+        context['result_dictionary'] = result_dictionary
+        return context
+
 
 class AssignmentStatistics(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     template_name = 'evaluator/assignment_statistics.html'
@@ -174,7 +236,7 @@ class AssignmentStatistics(LoginRequiredMixin, PermissionRequiredMixin, DetailVi
         context = super().get_context_data(**kwargs)
         context['submissions'] = Submission.objects.filter(
             assignment=self.object
-        )
+        ).first()
         return context
 
 
