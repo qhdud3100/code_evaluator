@@ -131,9 +131,9 @@ class Program:
         os.remove(self.executable_path)
 
 
-def match(expected_output_file, actual_outputFile):
-    if os.path.isfile(actual_outputFile) and os.path.isfile(expected_output_file):
-        result = filecmp.cmp(actual_outputFile, expected_output_file)
+def match(expected_output_file, actual_output_file):
+    if os.path.isfile(actual_output_file) and os.path.isfile(expected_output_file):
+        result = filecmp.cmp(actual_output_file, expected_output_file)
         if result:
             return 201, STATUS_CODES[201]
         else:
