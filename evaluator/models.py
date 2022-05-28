@@ -55,7 +55,7 @@ class Classroom(models.Model):
 
     name = models.CharField('Name', max_length=50)
     semester = models.ForeignKey('Semester', related_name='classrooms',
-                                 on_delete=models.PROTECT, verbose_name='Semester', editable=False)
+                                 on_delete=models.CASCADE, verbose_name='Semester', editable=False)
 
     instructors = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='classrooms_instructors',
                                          verbose_name='Instructors', blank=True)
@@ -115,7 +115,7 @@ class Assignment(models.Model):
     description = RichTextUploadingField('Description')
     max_score = models.DecimalField('Max Score', decimal_places=2, max_digits=500)
     classroom = models.ForeignKey('Classroom', related_name='assignments',
-                                  on_delete=models.PROTECT, verbose_name='Classroom')
+                                  on_delete=models.CASCADE, verbose_name='Classroom')
     due = models.DateTimeField('Due')
     criteria = models.ForeignKey(
         'Criterion',
@@ -150,7 +150,7 @@ class Submission(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='submissions',
                              on_delete=models.CASCADE, verbose_name='User')
     assignment = models.ForeignKey('Assignment', related_name='submissions',
-                                   on_delete=models.PROTECT, verbose_name='Assignment')
+                                   on_delete=models.CASCADE, verbose_name='Assignment')
     is_distinct = models.BooleanField('', default=False)  # TODO
     score = models.DecimalField('Score', decimal_places=2, max_digits=500, null=True)
     file = models.FileField('File', upload_to=FilenameChanger('submissions'),
@@ -161,12 +161,3 @@ class Submission(models.Model):
 
     class Meta:
         unique_together = ['user', 'assignment']
-
-
-class Comment(models.Model):
-    submission = models.ForeignKey('Submission', related_name='comments',
-                                   on_delete=models.PROTECT, verbose_name='Submission')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='comments',
-                             on_delete=models.CASCADE, verbose_name='User')
-    content = models.TextField('Content')
-    created = models.DateTimeField('Date Created', auto_now_add=True)
