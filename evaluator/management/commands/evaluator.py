@@ -1,6 +1,7 @@
 from program import *
 from parser_driver import *
 from utils import ordered_yaml
+import json
 
 class Evaluator:
 
@@ -74,4 +75,4 @@ if __name__ == '__main__':
     evaluator = Evaluator("/home/ubuntu/code_evaluator/config.yml")
 
     evaluator.evaluate_code("macro_example.c", "macro_example.c", ["test_input", "test_input1", "test_input2"])
-    print(evaluator.result_dict)
+    json_val = json.dumps(evaluator.result_dict)
